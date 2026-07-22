@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Jasdeep Singh — Portfolio Command Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f4f6fb;--bg2:#ffffff;--bg3:#eef1f8;--bg4:#eceffa;--bg5:#e4e8f4;
+  --bdr:#e3e7f0;--bdr2:#ced4e3;
+  --txt:#10162b;--txt2:#4b5573;--txt3:#7c86a0;--txt4:#a7aec2;
+  --grn:#0f9d58;--grn2:#0c7d46;--grnbg:rgba(15,157,88,.10);--grnbd:rgba(15,157,88,.28);
+  --red:#dc2626;--redbg:rgba(220,38,38,.08);--redbd:rgba(220,38,38,.25);
+  --blu:#2563eb;--blubg:rgba(37,99,235,.08);--blubd:rgba(37,99,235,.25);
+  --gld:#b45309;--gldbg:rgba(180,83,9,.09);--gldbd:rgba(180,83,9,.28);
+  --pur:#7c3aed;--purbg:rgba(124,58,237,.08);
+  --tel:#0d9488;--telbg:rgba(13,148,136,.08);
+  --r:10px;--sans:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;--serif:'Playfair Display',serif;
+  --shadow:0 1px 2px rgba(16,22,43,.04),0 6px 18px -6px rgba(16,22,43,.08);
+}
+html{font-size:14px;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans);line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased}
+.sitenav{position:sticky;top:0;z-index:101;background:rgba(255,255,255,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr)}
+.sitenav-inner{max-width:1340px;margin:0 auto;display:flex;align-items:center;overflow-x:auto;scrollbar-width:none;padding:0 20px}
+.sitenav-inner::-webkit-scrollbar{display:none}
+.site-brand{font-family:var(--serif);font-size:15px;font-style:italic;color:var(--gld);white-space:nowrap;padding:14px 24px 14px 0;flex-shrink:0;border-right:1px solid var(--bdr);margin-right:8px;text-decoration:none}
+.site-tab{padding:14px 15px;font-size:12px;font-weight:500;color:var(--txt3);text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;transition:color .15s;flex-shrink:0}
+.site-tab:hover{color:var(--txt2)}
+.site-tab.active{color:var(--gld);border-bottom-color:var(--gld)}
+.topnav{position:sticky;top:47px;z-index:100;background:rgba(255,255,255,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr)}
+.nav-inner{max-width:1340px;margin:0 auto;display:flex;align-items:center;overflow-x:auto;scrollbar-width:none;padding:0 20px}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-tab{padding:13px 14px;font-size:11.5px;font-weight:500;color:var(--txt3);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;transition:color .15s;flex-shrink:0}
+.nav-tab:hover{color:var(--txt2)}
+.nav-tab.active{color:var(--blu);border-bottom-color:var(--blu)}
+.section{display:none;max-width:1340px;margin:0 auto;padding:28px 20px 60px}
+.section.active{display:block;animation:fade .3s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.hero{background:#fff;border:1px solid var(--bdr);border-radius:16px;padding:36px 40px;margin-bottom:24px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(180,83,9,.08),transparent 70%)}
+.hero::after{content:'';position:absolute;bottom:-140px;left:-60px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.06),transparent 70%)}
+.hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gld);margin-bottom:14px}
+.hero-name{font-family:var(--serif);font-size:clamp(28px,5vw,42px);margin-bottom:4px;line-height:1.1;background:linear-gradient(90deg,var(--txt),var(--gld) 140%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero-role{font-size:14px;color:var(--txt2);margin-bottom:22px}
+.hero-note{background:var(--gldbg);border:1px solid var(--gldbd);border-radius:12px;padding:20px 24px;font-size:13px;color:var(--txt2);line-height:1.75;margin-bottom:26px}
+.hero-note strong{color:var(--txt);display:block;margin-bottom:6px;font-size:13.5px}
+.hero-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.hs{background:var(--bg4);border:1px solid var(--bdr);border-radius:10px;padding:15px 16px;text-align:center}
+.hs-val{font-family:var(--mono);font-size:21px;font-weight:600;line-height:1.1}
+.hs-lbl{font-size:9.5px;color:var(--txt3);text-transform:uppercase;letter-spacing:.08em;margin-top:5px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px;margin-bottom:18px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-bottom:18px}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:18px}
+.card{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:20px 22px;box-shadow:var(--shadow)}
+.card-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--txt3);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card-title::after{content:'';flex:1;height:1px;background:var(--bdr)}
+.kpi-val{font-family:var(--mono);font-size:25px;font-weight:600;line-height:1}
+.kpi-sub{font-size:11px;color:var(--txt2);margin-top:5px}
+.kpi-badge{display:inline-block;font-size:10px;font-weight:500;padding:2px 9px;border-radius:20px;margin-top:7px;font-family:var(--mono)}
+.badge-g{background:var(--grnbg);color:var(--grn);border:1px solid var(--grnbd)}
+.badge-r{background:var(--redbg);color:var(--red);border:1px solid var(--redbd)}
+.badge-b{background:var(--blubg);color:var(--blu);border:1px solid var(--blubd)}
+.badge-a{background:var(--gldbg);color:var(--gld);border:1px solid var(--gldbd)}
+.g{color:var(--grn)}.r{color:var(--red)}.b{color:var(--blu)}.a{color:var(--gld)}.p{color:var(--pur)}.t{color:var(--tel)}
+.chart-box{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:20px 22px;margin-bottom:16px;box-shadow:var(--shadow)}
+.chart-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--txt3);margin-bottom:3px}
+.chart-desc{font-size:11px;color:var(--txt3);margin-bottom:16px}
+canvas{width:100%!important}
+.slbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--txt4);margin:22px 0 12px;display:flex;align-items:center;gap:10px}
+.slbl::after{content:'';flex:1;height:1px;background:var(--bdr)}
+.tbl-wrap{overflow-x:auto;border-radius:var(--r);border:1px solid var(--bdr);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:640px}
+th{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--txt3);padding:11px 12px;border-bottom:1px solid var(--bdr2);text-align:left;white-space:nowrap;background:var(--bg3)}
+td{padding:11px 12px;border-bottom:1px solid var(--bdr);vertical-align:middle;background:var(--bg2)}
+tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:var(--bg3)}
+.tr-total td{background:var(--bg3);font-weight:600;border-top:1px solid var(--bdr2)}
+.mono{font-family:var(--mono);font-size:11px}
+.chip{font-family:var(--mono);font-size:11px;font-weight:600;padding:3px 9px;border-radius:5px;white-space:nowrap}
+.chip-blu{background:rgba(61,139,253,.15);color:var(--blu);border:1px solid rgba(61,139,253,.25)}
+.chip-pur{background:rgba(176,108,245,.15);color:var(--pur);border:1px solid rgba(176,108,245,.25)}
+.chip-grn{background:rgba(34,224,138,.13);color:var(--grn);border:1px solid rgba(34,224,138,.22)}
+.chip-gld{background:rgba(255,176,32,.15);color:var(--gld);border:1px solid rgba(255,176,32,.25)}
+.chip-tel{background:rgba(24,197,181,.13);color:var(--tel);border:1px solid rgba(24,197,181,.22)}
+.risk-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--bdr);gap:12px}
+.risk-row:last-child{border-bottom:none}
+.risk-lbl{font-size:12px;color:var(--txt2);flex:1}
+.risk-val{font-family:var(--mono);font-size:13px;font-weight:500;white-space:nowrap}
+.alloc-row{margin-bottom:11px}
+.alloc-head{display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px}
+.alloc-track{height:6px;background:var(--bg4);border-radius:3px;overflow:hidden}
+.alloc-fill{height:100%;border-radius:3px}
+.stock-nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.stock-btn{padding:8px 15px;border-radius:7px;font-size:12px;font-weight:600;font-family:var(--mono);cursor:pointer;border:1px solid var(--bdr);background:var(--bg2);color:var(--txt3);transition:all .15s}
+.stock-btn:hover{border-color:var(--bdr2);color:var(--txt)}
+.stock-detail{display:none}
+.stock-detail.active{display:block;animation:fade .3s ease}
+.stock-hero{background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;padding:24px 26px;margin-bottom:18px;box-shadow:var(--shadow)}
+.sh-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:20px}
+.sh-ticker{font-family:var(--mono);font-size:30px;font-weight:700;line-height:1}
+.sh-name{font-size:14px;color:var(--txt2);margin-top:4px}
+.sh-sector{font-size:11px;color:var(--txt3);margin-top:2px}
+.sh-right{text-align:right}
+.sh-price{font-family:var(--mono);font-size:26px;font-weight:600}
+.sh-pnl{font-size:13px;font-family:var(--mono);margin-top:4px}
+.sh-alloc{font-size:11px;color:var(--txt3);margin-top:2px}
+.sh-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:9px}
+.shm{background:var(--bg3);border-radius:7px;padding:11px 13px}
+.shm-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--txt3);margin-bottom:4px}
+.shm-val{font-family:var(--mono);font-size:13.5px;font-weight:500}
+.thesis{background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;padding:22px 26px;margin-bottom:14px;box-shadow:var(--shadow)}
+.thesis-section{margin-bottom:20px}
+.thesis-section:last-child{margin-bottom:0}
+.thesis-hl{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;display:inline-flex;align-items:center;gap:7px}
+.th-fund{color:var(--tel)}.th-tech{color:var(--gld)}.th-thesis{color:var(--blu)}.th-risk{color:var(--red)}
+.thesis-body{font-size:13px;color:var(--txt2);line-height:1.75}
+.thesis-body strong{color:var(--txt)}
+.log-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.log-btn{padding:9px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--bdr2);background:var(--bg3);color:var(--txt);transition:all .15s}
+.log-btn:hover{background:var(--bg4);border-color:var(--blu)}
+.log-btn.primary{background:var(--blu);border-color:var(--blu);color:#fff}
+.log-btn.primary:hover{background:#2d7bed}
+.log-filter{padding:8px 12px;border-radius:8px;font-size:12px;background:var(--bg3);color:var(--txt);border:1px solid var(--bdr2);font-family:var(--sans)}
+.trade-item{background:var(--bg2);border:1px solid var(--bdr);border-radius:10px;margin-bottom:8px;overflow:hidden;transition:border-color .15s;box-shadow:var(--shadow)}
+.trade-item:hover{border-color:var(--bdr2)}
+.trade-head{display:grid;grid-template-columns:90px 60px 1fr auto auto auto;gap:14px;align-items:center;padding:14px 18px;cursor:pointer}
+@media(max-width:700px){.trade-head{grid-template-columns:1fr auto;gap:8px}}
+.trade-date{font-family:var(--mono);font-size:11px;color:var(--txt3)}
+.trade-action{font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px;text-align:center;text-transform:uppercase;letter-spacing:.04em}
+.ta-buy{background:var(--grnbg);color:var(--grn);border:1px solid var(--grnbd)}
+.ta-sell{background:var(--redbg);color:var(--red);border:1px solid var(--redbd)}
+.trade-desc{font-size:13px;font-weight:500}
+.trade-desc .sub{font-size:11px;color:var(--txt3);font-weight:400}
+.trade-val{font-family:var(--mono);font-size:12px;text-align:right}
+.trade-expand{font-size:18px;color:var(--txt3);transition:transform .2s;text-align:center}
+.trade-item.open .trade-expand{transform:rotate(180deg)}
+.trade-body{display:none;padding:0 18px 18px;border-top:1px solid var(--bdr)}
+.trade-item.open .trade-body{display:block;animation:fade .25s ease}
+.trade-rationale{padding-top:16px}
+.tr-block{margin-bottom:16px}
+.tr-block:last-child{margin-bottom:0}
+.tr-hl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;margin-bottom:6px}
+.tr-body{font-size:12.5px;color:var(--txt2);line-height:1.7}
+.tr-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:14px}
+.trm{background:var(--bg3);border-radius:6px;padding:9px 11px}
+.trm-l{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--txt3);margin-bottom:2px}
+.trm-v{font-family:var(--mono);font-size:12px;font-weight:500}
+.disclaimer{background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--r);padding:15px 18px;font-size:11px;color:var(--txt3);line-height:1.65;margin-top:18px}
+.note-box{background:var(--gldbg);border:1px solid var(--gldbd);border-radius:var(--r);padding:14px 18px;font-size:12.5px;color:var(--txt2);line-height:1.7;margin-bottom:16px}
+.note-box strong{color:var(--txt)}
+@media(max-width:768px){
+  .section{padding:20px 14px 48px}.hero{padding:22px 18px}.stock-hero,.thesis{padding:18px 16px}
+}
+</style>
+</head>
+<body>
+<nav class="sitenav">
+  <div class="sitenav-inner">
+    <a href="profile.html" class="site-brand">Jasdeep Singh</a>
+    <a href="profile.html" class="site-tab">Profile</a>
+    <a href="portfolio.html" class="site-tab active">Portfolio</a>
+    <a href="memos.html" class="site-tab">Investment Memos</a>
+  </div>
+</nav>
+<nav class="topnav">
+  <div class="nav-inner">
+    <button class="nav-tab active" onclick="showTab('overview',this)">Overview</button>
+    <button class="nav-tab" onclick="showTab('performance',this)">Performance</button>
+    <button class="nav-tab" onclick="showTab('holdings',this)">Holdings</button>
+    <button class="nav-tab" onclick="showTab('thesis',this)">Thesis &amp; Financials</button>
+    <button class="nav-tab" onclick="showTab('tradelog',this)">Trade Log</button>
+    <button class="nav-tab" onclick="showTab('risk',this)">Risk &amp; Ratios</button>
+    <button class="nav-tab" onclick="showTab('attribution',this)">Attribution</button>
+  </div>
+</nav>
+
+<div id="overview" class="section active">
+  <div class="hero">
+    <div class="hero-eyebrow">Personal Investment Portfolio · Live 22 Jul 2026</div>
+    <div class="hero-name">Live Portfolio</div>
+    <div class="hero-note">
+      <strong>A note to anyone reviewing this</strong>
+      This portfolio is 22 days old — built from scratch on 30 June 2026. I want to be upfront: 16 trading days is not a track record, and no honest person would present it as one. What this dashboard is meant to demonstrate is <em>how I think</em> — the discipline of position sizing, tracking real data honestly (including the days it goes against me), and the infrastructure to evolve this book over time. The capital is small because it is personal and I am building a demonstrable process, not chasing a headline return. Fundamental and technical write-ups for each holding are being added progressively in the Thesis &amp; Financials tab.
+    </div>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-val g">+1.63%</div><div class="hs-lbl">Since Inception (TWR)</div></div>
+      <div class="hs"><div class="hs-val g">+5.67pp</div><div class="hs-lbl">Alpha vs QQQ</div></div>
+      <div class="hs"><div class="hs-val">$5,077.34</div><div class="hs-lbl">NAV USD</div></div>
+      <div class="hs"><div class="hs-val g">+$80.35</div><div class="hs-lbl">Unreal P&amp;L</div></div>
+      <div class="hs"><div class="hs-val">9</div><div class="hs-lbl">Positions</div></div>
+      <div class="hs"><div class="hs-val">4</div><div class="hs-lbl">Sectors</div></div>
+      <div class="hs"><div class="hs-val">93.1%</div><div class="hs-lbl">Deployed</div></div>
+      <div class="hs"><div class="hs-val b">2.01</div><div class="hs-lbl">Sharpe (ann.)</div></div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">NAV vs Broad Benchmarks · Indexed 100 at Jun 30</div>
+      <div style="height:220px"><canvas id="navChartOv"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Sector Allocation</div>
+      <div style="display:grid;grid-template-columns:170px 1fr;gap:16px;align-items:center">
+        <div style="position:relative;height:170px;display:flex;align-items:center;justify-content:center">
+          <canvas id="donutOv" width="170" height="170"></canvas>
+          <div style="position:absolute;text-align:center"><div style="font-family:var(--mono);font-size:19px;font-weight:600">93%</div><div style="font-size:9px;color:var(--txt3)">invested</div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="width:9px;height:9px;border-radius:2px;background:#2563eb"></span><span style="flex:1;color:var(--txt2)">Technology</span><span class="mono">43.7%</span></div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="width:9px;height:9px;border-radius:2px;background:#7c3aed"></span><span style="flex:1;color:var(--txt2)">Healthcare</span><span class="mono">18.8%</span></div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="width:9px;height:9px;border-radius:2px;background:#0f9d58"></span><span style="flex:1;color:var(--txt2)">Industrial</span><span class="mono">19.8%</span></div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="width:9px;height:9px;border-radius:2px;background:#0d9488"></span><span style="flex:1;color:var(--txt2)">Utilities</span><span class="mono">10.8%</span></div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px"><span style="width:9px;height:9px;border-radius:2px;background:#374151"></span><span style="flex:1;color:var(--txt2)">Cash</span><span class="mono">6.8%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid4">
+    <div class="card"><div class="card-title">vs QQQ</div><div class="kpi-val g">+5.67pp</div><div class="kpi-sub">QQQ −4.03% since Jun 30</div><div class="kpi-badge badge-g">Outperforming</div></div>
+    <div class="card"><div class="card-title">vs SPY</div><div class="kpi-val g">+1.56pp</div><div class="kpi-sub">SPY +0.08% since Jun 30</div><div class="kpi-badge badge-g">Outperforming</div></div>
+    <div class="card"><div class="card-title">Max Drawdown</div><div class="kpi-val r">−2.32%</div><div class="kpi-sub">Jul 10 → Jul 17, partly recovered</div><div class="kpi-badge badge-r">Live</div></div>
+    <div class="card"><div class="card-title">Win Rate</div><div class="kpi-val g">62.5%</div><div class="kpi-sub">10 of 16 days</div><div class="kpi-badge badge-b">Live TWR series</div></div>
+  </div>
+  <div class="slbl">Sector weights</div>
+  <div class="card">
+    <div class="alloc-row"><div class="alloc-head"><span style="color:var(--blu)">Technology · AVGO + MSFT + NVDA</span><span class="mono">43.7%</span></div><div class="alloc-track"><div class="alloc-fill" style="width:87%;background:var(--blu)"></div></div></div>
+    <div class="alloc-row"><div class="alloc-head"><span style="color:var(--grn)">Industrial · LHX + NOC + KTOS</span><span class="mono">19.8%</span></div><div class="alloc-track"><div class="alloc-fill" style="width:40%;background:var(--grn)"></div></div></div>
+    <div class="alloc-row"><div class="alloc-head"><span style="color:var(--pur)">Healthcare · LLY + VRTX</span><span class="mono">18.8%</span></div><div class="alloc-track"><div class="alloc-fill" style="width:38%;background:var(--pur)"></div></div></div>
+    <div class="alloc-row"><div class="alloc-head"><span style="color:var(--tel)">Utilities · CEG</span><span class="mono">10.8%</span></div><div class="alloc-track"><div class="alloc-fill" style="width:22%;background:var(--tel)"></div></div></div>
+    <div class="alloc-row" style="margin-bottom:0"><div class="alloc-head"><span style="color:var(--txt3)">Cash</span><span class="mono">6.8%</span></div><div class="alloc-track"><div class="alloc-fill" style="width:14%;background:var(--txt4)"></div></div></div>
+  </div>
+  <div class="disclaimer">Personal portfolio summary for informational purposes only. Not investment advice. Performance over 16 trading days is not indicative of future results. Live as of 22 Jul 2026 (intraday) — unrealized P&amp;L and NAV move intraday and will differ slightly by the time you're reading this. Statistical ratios from a 16-observation sample — directional only. USD/AED ≈ 3.6747.</div>
+</div>
+
+<div id="performance" class="section">
+  <div class="grid4">
+    <div class="card"><div class="card-title">Total Return TWR</div><div class="kpi-val g">+1.63%</div><div class="kpi-sub">+$81.59 absolute</div><div class="kpi-badge badge-g">16 trading days</div></div>
+    <div class="card"><div class="card-title">vs QQQ</div><div class="kpi-val g">+5.67pp</div><div class="kpi-sub">QQQ −4.03%</div><div class="kpi-badge badge-g">Outperform</div></div>
+    <div class="card"><div class="card-title">vs SPY</div><div class="kpi-val g">+1.56pp</div><div class="kpi-sub">SPY +0.08%</div><div class="kpi-badge badge-g">Outperform</div></div>
+    <div class="card"><div class="card-title">Annualised (proj)</div><div class="kpi-val a">~25.7%</div><div class="kpi-sub">low confidence</div><div class="kpi-badge badge-a">14d extrapolation</div></div>
+  </div>
+  <div class="chart-box">
+    <div class="chart-lbl">Portfolio vs Broad Benchmarks · Indexed to 100 at inception (Jun 30 2026)</div>
+    <div class="chart-desc">SPY and QQQ rebased to 100 at their Jun 30 close</div>
+    <div style="height:280px"><canvas id="navChartFull"></canvas></div>
+  </div>
+  <div class="grid2">
+    <div class="chart-box" style="margin-bottom:0">
+      <div class="chart-lbl">Drawdown from Rolling Peak</div>
+      <div class="chart-desc">Max −2.32% (Jul 10→17)</div>
+      <div style="height:220px"><canvas id="ddChart"></canvas></div>
+    </div>
+    <div class="chart-box" style="margin-bottom:0">
+      <div class="chart-lbl">Daily Returns</div>
+      <div class="chart-desc">16 obs · Mean +0.10%/day · Win 62.5%</div>
+      <div style="height:220px"><canvas id="retChart"></canvas></div>
+    </div>
+  </div>
+  <div class="slbl">Period returns vs broad benchmarks</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Benchmark</th><th>Type</th><th>Jun 30→Jul 20</th><th>Portfolio</th><th>Active Return</th><th>Assessment</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip chip-gld">Portfolio</span></td><td style="color:var(--txt3)">—</td><td class="mono g">+0.48%</td><td class="mono">—</td><td class="mono">—</td><td style="font-size:11px;color:var(--txt3)">This book</td></tr>
+        <tr><td>SPY</td><td style="font-size:11px;color:var(--txt3)">Broad · S&amp;P 500</td><td class="mono r">−0.52%</td><td class="mono g">+0.48%</td><td class="mono g">+1.00pp</td><td style="font-size:11px" class="g">Outperformance</td></tr>
+        <tr><td>QQQ</td><td style="font-size:11px;color:var(--txt3)">Broad · Nasdaq 100</td><td class="mono r">−5.16%</td><td class="mono g">+0.48%</td><td class="mono g">+5.64pp</td><td style="font-size:11px" class="g">Strong outperformance</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note-box" style="margin-top:16px"><strong>Statistical caveat:</strong> With 16 trading days of history, all statistics are directional and should not be extrapolated into an annual return with any confidence. Sector-level detail vs matched ETF benchmarks (not just broad indices) is in the Attribution tab.</div>
+</div>
+
+<div id="holdings" class="section">
+  <div class="chart-box">
+    <div class="chart-lbl">Unrealised P&amp;L by Position (USD)</div>
+    <div class="chart-desc">Since inception</div>
+    <div style="height:240px"><canvas id="waterfallChart"></canvas></div>
+  </div>
+  <div class="slbl">All positions — 22 Jul 2026</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Ticker</th><th>Sector</th><th>Qty</th><th>Avg Cost</th><th>Current</th><th>Mkt Value</th><th>Weight</th><th>Unreal P&amp;L</th><th>Return</th><th>Today</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip chip-blu">AVGO</span></td><td style="font-size:11px;color:var(--txt3)">Technology</td><td class="mono">2.62</td><td class="mono">$378.69</td><td class="mono">$386.00</td><td class="mono">$1,011.32</td><td class="mono">19.92%</td><td class="mono g">+$19.16</td><td class="mono g">+1.93%</td><td class="mono r">−$1.31</td></tr>
+        <tr><td><span class="chip chip-gld">MSFT</span></td><td style="font-size:11px;color:var(--txt3)">Technology</td><td class="mono">1.75</td><td class="mono">$372.14</td><td class="mono">$390.06</td><td class="mono">$682.60</td><td class="mono">13.44%</td><td class="mono g">+$31.36</td><td class="mono g">+4.82%</td><td class="mono r">−$13.46</td></tr>
+        <tr><td><span class="chip chip-pur">LLY</span></td><td style="font-size:11px;color:var(--txt3)">Healthcare</td><td class="mono">0.49</td><td class="mono">$1,210.45</td><td class="mono">$1,157.00</td><td class="mono">$566.93</td><td class="mono">11.16%</td><td class="mono r">−$26.19</td><td class="mono r">−4.42%</td><td class="mono r">−$9.02</td></tr>
+        <tr><td><span class="chip chip-blu">NVDA</span></td><td style="font-size:11px;color:var(--txt3)">Technology</td><td class="mono">2.55</td><td class="mono">$199.97</td><td class="mono">$206.59</td><td class="mono">$526.80</td><td class="mono">10.38%</td><td class="mono g">+$16.87</td><td class="mono g">+3.31%</td><td class="mono r">−$1.79</td></tr>
+        <tr><td><span class="chip chip-tel">CEG</span></td><td style="font-size:11px;color:var(--txt3)">Utilities</td><td class="mono">2.02</td><td class="mono">$247.17</td><td class="mono">$271.91</td><td class="mono">$549.26</td><td class="mono">10.82%</td><td class="mono g">+$49.98</td><td class="mono g">+10.01%</td><td class="mono g">+$19.57</td></tr>
+        <tr><td><span class="chip chip-grn">LHX</span></td><td style="font-size:11px;color:var(--txt3)">Industrial</td><td class="mono">1.55</td><td class="mono">$290.13</td><td class="mono">$284.76</td><td class="mono">$441.38</td><td class="mono">8.69%</td><td class="mono r">−$8.33</td><td class="mono r">−1.85%</td><td class="mono g">+$10.93</td></tr>
+        <tr><td><span class="chip chip-grn">NOC</span></td><td style="font-size:11px;color:var(--txt3)">Industrial</td><td class="mono">0.79</td><td class="mono">$507.18</td><td class="mono">$529.61</td><td class="mono">$418.39</td><td class="mono">8.24%</td><td class="mono g">+$17.72</td><td class="mono g">+4.42%</td><td class="mono g">+$13.68</td></tr>
+        <tr><td><span class="chip chip-pur">VRTX</span></td><td style="font-size:11px;color:var(--txt3)">Healthcare</td><td class="mono">0.81</td><td class="mono">$496.90</td><td class="mono">$476.11</td><td class="mono">$385.65</td><td class="mono">7.59%</td><td class="mono r">−$16.84</td><td class="mono r">−4.18%</td><td class="mono r">−$4.77</td></tr>
+        <tr><td><span class="chip chip-grn">KTOS</span></td><td style="font-size:11px;color:var(--txt3)">Industrial</td><td class="mono">3.02</td><td class="mono">$50.01</td><td class="mono">$48.89</td><td class="mono">$147.64</td><td class="mono">2.91%</td><td class="mono r">−$3.39</td><td class="mono r">−2.25%</td><td class="mono g">+$2.05</td></tr>
+        <tr><td><span class="chip" style="background:var(--bg4);color:var(--txt3);border:1px solid var(--bdr2)">CASH</span></td><td style="font-size:11px;color:var(--txt3)">—</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td><td class="mono">$346.85</td><td class="mono">6.83%</td><td class="mono">—</td><td class="mono">—</td><td class="mono">—</td></tr>
+        <tr class="tr-total"><td colspan="5">Portfolio Total</td><td class="mono">$5,077.34</td><td class="mono">100%</td><td class="mono g">+$80.35</td><td class="mono g">+1.73%</td><td class="mono g">+$15.89</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="disclaimer">Position data as of 22 Jul 2026 (intraday). "Return" is simple return on cost basis (unrealized P&amp;L ÷ avg cost), distinct from the TWR figure used in Overview/Performance. Weight is % of total account NAV including cash.</div>
+</div>
+
+<div id="thesis" class="section">
+  <div class="note-box">Each position below carries a <strong>fundamental</strong> and <strong>technical</strong> rationale slot, alongside the real position facts (sector, cost, weight, live return).</div>
+  <div class="stock-nav" id="stockNav">
+    <button class="stock-btn active" style="background:#4d94ff;border-color:#4d94ff;color:#fff" onclick="showStock('nvda',this)">NVDA</button>
+    <button class="stock-btn" onclick="showStock('avgo',this)">AVGO</button>
+    <button class="stock-btn" onclick="showStock('msft',this)">MSFT</button>
+    <button class="stock-btn" onclick="showStock('lly',this)">LLY</button>
+    <button class="stock-btn" onclick="showStock('vrtx',this)">VRTX</button>
+    <button class="stock-btn" onclick="showStock('lhx',this)">LHX</button>
+    <button class="stock-btn" onclick="showStock('noc',this)">NOC</button>
+    <button class="stock-btn" onclick="showStock('ktos',this)">KTOS</button>
+    <button class="stock-btn" onclick="showStock('ceg',this)">CEG</button>
+  </div>
+  <div id="stockContainer"></div>
+</div>
+
+<div id="tradelog" class="section">
+  <div class="note-box"><strong>Trade log.</strong> Reconstructed from actual execution history (fills consolidated per ticker where an order filled across multiple partial executions), with the real fundamental/technical rationale used at entry attached to each trade. Click a row to expand it.</div>
+  <div class="log-controls">
+    <select class="log-filter" id="logFilter" onchange="renderTrades()">
+      <option value="all">All actions</option>
+      <option value="BUY">Buys only</option>
+      <option value="SELL">Sells only</option>
+    </select>
+    <select class="log-filter" id="logTicker" onchange="renderTrades()">
+      <option value="all">All tickers</option>
+      <option>NVDA</option><option>AVGO</option><option>MSFT</option><option>LLY</option><option>VRTX</option><option>LHX</option><option>NOC</option><option>KTOS</option><option>CEG</option>
+    </select>
+    <button class="log-btn" onclick="resetTrades()">Reset trades</button>
+  </div>
+  <div id="tradeList"></div>
+</div>
+
+<div id="risk" class="section">
+  <div class="note-box">All ratios below use 16 completed daily closes through 22 Jul 2026. Samples under 30 are directional, not statistically reliable. Risk-free rate assumed 3.90% p.a. (current US 3m T-bill, ~3.8–4.0% range as of Jul 2026), daily 0.0155%.</div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Risk-Adjusted Ratios</div>
+      <div class="risk-row"><span class="risk-lbl">Sharpe (annualised)</span><div style="display:flex;gap:10px;align-items:center"><span class="risk-val b">2.01</span><span class="kpi-badge badge-b">EARLY</span></div></div>
+      <div class="risk-row"><span class="risk-lbl">Sortino (annualised)</span><div style="display:flex;gap:10px;align-items:center"><span class="risk-val g">2.95</span><span class="kpi-badge badge-b">EARLY</span></div></div>
+      <div class="risk-row"><span class="risk-lbl">Calmar (ret/MDD, extrapolated)</span><div style="display:flex;gap:10px;align-items:center"><span class="risk-val">11.10</span><span class="kpi-badge badge-a">LOW CONFIDENCE</span></div></div>
+      <div class="risk-row"><span class="risk-lbl">Information Ratio vs QQQ</span><span class="risk-val g">+5.28</span></div>
+      <div class="risk-row" style="border:none"><span class="risk-lbl">Win Rate (daily)</span><span class="risk-val g">62.5%</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Absolute Risk</div>
+      <div class="risk-row"><span class="risk-lbl">Daily Volatility σ</span><span class="risk-val">0.70%</span></div>
+      <div class="risk-row"><span class="risk-lbl">Annualised Vol (×√252)</span><span class="risk-val">11.0%</span></div>
+      <div class="risk-row"><span class="risk-lbl">Downside Deviation</span><span class="risk-val">0.48%</span></div>
+      <div class="risk-row"><span class="risk-lbl">Max Drawdown</span><span class="risk-val r">−2.32%</span></div>
+      <div class="risk-row" style="border:none"><span class="risk-lbl">Mean Daily Return</span><span class="risk-val g">+0.104%</span></div>
+    </div>
+  </div>
+  <div class="slbl">Risk-adjusted ratios vs benchmarks</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Metric</th><th>Portfolio</th><th>SPY</th><th>QQQ</th><th>Read</th></tr></thead>
+      <tbody>
+        <tr><td>Sharpe (annualised)</td><td class="mono g">2.01</td><td class="mono r">−0.26</td><td class="mono r">−3.28</td><td style="font-size:11px" class="g">Portfolio only positive-Sharpe series</td></tr>
+        <tr><td>Sortino (annualised)</td><td class="mono g">2.95</td><td class="mono r">−0.39</td><td class="mono r">−4.01</td><td style="font-size:11px" class="g">Same story on downside-only risk</td></tr>
+        <tr><td>Annualised Volatility</td><td class="mono">11.0%</td><td class="mono">8.8%</td><td class="mono">20.3%</td><td style="font-size:11px;color:var(--txt3)">Portfolio sits between the two indices</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note-box" style="margin-top:12px">SPY and QQQ both show negative Sharpe/Sortino over these 16 trading days — QQQ because it's down outright (−4.03%), and SPY because even its small positive return (+0.08%) still falls short of the ~3.90% annualised risk-free rate used here. So a negative ratio reflects each benchmark's own weak risk-adjusted showing, not a flaw in the ratio. It's still a fair like-for-like comparison since all three are computed the same way, over the same window, at the same risk-free assumption.</div>
+  <div class="slbl">Position-level risk flags — based on real weights &amp; live P&amp;L</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Position</th><th>Flag</th><th>Detail</th><th>Severity</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip chip-blu">AVGO</span></td><td>Concentration</td><td style="font-size:11px;color:var(--txt2)">20.25% of NAV — now over a 20% single-name guideline; a trim is worth considering</td><td><span class="kpi-badge badge-a">MONITOR</span></td></tr>
+        <tr><td><span class="chip chip-grn">KTOS</span></td><td>Largest % drawdown</td><td style="font-size:11px;color:var(--txt2)">−8.44% since entry — smallest position (2.76% of NAV), so dollar impact is contained</td><td><span class="kpi-badge badge-a">WATCH</span></td></tr>
+        <tr><td><span class="chip chip-pur">LLY</span></td><td>Largest $ drawdown</td><td style="font-size:11px;color:var(--txt2)">−$28.01 unrealized — largest single-position dollar loss in the book</td><td><span class="kpi-badge badge-a">WATCH</span></td></tr>
+        <tr><td>Cash</td><td>Thin buffer</td><td style="font-size:11px;color:var(--txt2)">6.8% cash — limited dry powder if a rebalancing opportunity comes up</td><td><span class="kpi-badge badge-a">MONITOR</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="disclaimer">Position-level flags reflect real weight and P&amp;L concentration, not fundamental-analysis scores (e.g. Piotroski, Altman Z) — those require deeper financial-statement research and will be added to the Thesis &amp; Financials tab as write-ups are completed, not fabricated here.</div>
+</div>
+
+<div id="attribution" class="section">
+  <div class="note-box">Each sleeve below is appraised against its <em>actual</em> sector ETF, not just the broad market — this isolates whether stock selection and entry timing added value within each sector. Sleeve return is simple return (cost → current); benchmark returns are live SOXX/ITA/XLV/XLU/IGV closes over the same window.</div>
+  <div style="background:var(--bg3);border:1px solid var(--bdr2);border-radius:var(--r);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px"><span style="font-size:13px;font-weight:600">Total active return vs QQQ (TWR basis)</span><span style="font-family:var(--mono);font-size:26px;font-weight:700" class="g">+5.67pp</span></div>
+  <div class="slbl">Sleeve return vs matched sector benchmark</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Sleeve</th><th>Holdings</th><th>Sleeve Return</th><th>Sector Benchmark</th><th>Benchmark Return</th><th>Excess</th><th>Read</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--blu)">Semiconductors</td><td><span class="chip chip-blu" style="font-size:10px">NVDA</span> <span class="chip chip-blu" style="font-size:10px">AVGO</span></td><td class="mono g">+2.40%</td><td>SOXX</td><td class="mono r">−13.71%</td><td class="mono g">+16.11pp</td><td style="font-size:11px" class="g">Entry discipline paid off hugely</td></tr>
+        <tr><td style="color:var(--gld)">Software</td><td><span class="chip chip-gld" style="font-size:10px">MSFT</span></td><td class="mono g">+4.82%</td><td>IGV</td><td class="mono r">−0.73%</td><td class="mono g">+5.55pp</td><td style="font-size:11px" class="g">MSFT beat software sector</td></tr>
+        <tr><td style="color:var(--grn)">Defence / Industrial</td><td><span class="chip chip-grn" style="font-size:10px">LHX</span> <span class="chip chip-grn" style="font-size:10px">NOC</span> <span class="chip chip-grn" style="font-size:10px">KTOS</span></td><td class="mono g">+0.60%</td><td>ITA</td><td class="mono r">−4.17%</td><td class="mono g">+4.77pp</td><td style="font-size:11px" class="g">Sleeve now positive, beat sector</td></tr>
+        <tr><td style="color:var(--pur)">Healthcare</td><td><span class="chip chip-pur" style="font-size:10px">LLY</span> <span class="chip chip-pur" style="font-size:10px">VRTX</span></td><td class="mono r">−4.32%</td><td>XLV</td><td class="mono g">+0.83%</td><td class="mono r">−5.15pp</td><td style="font-size:11px" class="r">Near-ATH entries lagged sector</td></tr>
+        <tr><td style="color:var(--tel)">Utilities</td><td><span class="chip chip-tel" style="font-size:10px">CEG</span></td><td class="mono g">+10.01%</td><td>XLU</td><td class="mono g">+0.82%</td><td class="mono g">+9.19pp</td><td style="font-size:11px" class="g">Nuclear-AI theme beat broad utilities</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="disclaimer">Sleeve returns are simple cost-to-current returns (not TWR) since inception 30 Jun 2026. Benchmarks: SOXX (semis), IGV (software), ITA (aerospace &amp; defence), XLV (healthcare), XLU (utilities) — live daily closes, Jun 30 → Jul 20 2026, price return only (excludes dividends). Not financial advice.</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+function showTab(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+const dates=['Jul 1','Jul 2','Jul 3','Jul 6','Jul 7','Jul 8','Jul 9','Jul 10','Jul 13','Jul 14','Jul 15','Jul 16','Jul 17','Jul 20','Jul 21','Jul 22'];
+const portIdx=[99.70,101.03,101.03,101.65,101.25,101.86,102.30,102.36,101.35,101.46,102.07,100.63,99.98,100.32,101.33,101.63];
+const spyIdx=[99.86,99.73,99.73,100.60,100.13,99.82,100.66,101.10,100.32,100.68,101.08,100.53,99.53,99.37,100.20,100.08];
+const qqqIdx=[98.48,96.77,96.77,98.16,96.34,96.61,98.22,98.52,96.65,97.73,97.47,95.86,94.42,94.52,96.27,95.97];
+const ddData=[0,0,0,0,-0.39,0,0,0,-0.99,-0.87,-0.28,-1.69,-2.32,-1.99,-1.01,-0.71];
+const dr=[-0.30,1.34,0.00,0.61,-0.39,0.60,0.44,0.05,-0.99,0.11,0.60,-1.41,-0.64,0.34,1.00,0.30];
+
+Chart.defaults.color='rgba(75,85,115,.75)';
+Chart.defaults.plugins.tooltip.titleColor='#fff';
+Chart.defaults.plugins.tooltip.bodyColor='#fff';
+const cGrid='rgba(16,22,43,.07)';
+Chart.defaults.borderColor=cGrid;
+Chart.defaults.font.family="'Inter',sans-serif";
+
+function lineChart(id,sets,extraY){new Chart(document.getElementById(id),{type:'line',data:{labels:dates,datasets:sets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{boxWidth:11,padding:14,font:{size:10},color:'rgba(75,85,115,.85)'}},tooltip:{mode:'index',intersect:false,backgroundColor:'rgba(16,22,43,.96)',borderColor:'rgba(200,206,222,.6)',borderWidth:1,callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y!=null?(c.parsed.y>=0?'+':'')+c.parsed.y.toFixed(2)+'%':'—'}`}}},scales:{x:{grid:{color:cGrid},ticks:{font:{size:10},maxRotation:0}},y:Object.assign({grid:{color:cGrid},ticks:{font:{size:10},callback:v=>`${v>=0?'+':''}${v.toFixed(1)}%`}},extraY||{})}}})}
+
+lineChart('navChartOv',[
+  {label:'Portfolio',data:portIdx,borderColor:'#ffb020',backgroundColor:'rgba(255,176,32,.08)',borderWidth:2,tension:.25,pointRadius:0,fill:true},
+  {label:'SPY',data:spyIdx,borderColor:'#4d94ff',borderWidth:1.5,tension:.25,pointRadius:0,borderDash:[4,3]},
+  {label:'QQQ',data:qqqIdx,borderColor:'#ff4d5e',borderWidth:1.5,tension:.25,pointRadius:0,borderDash:[4,3]}
+]);
+lineChart('navChartFull',[
+  {label:'Portfolio',data:portIdx,borderColor:'#ffb020',backgroundColor:'rgba(255,176,32,.08)',borderWidth:2.5,tension:.25,pointRadius:2,fill:true},
+  {label:'SPY',data:spyIdx,borderColor:'#4d94ff',borderWidth:1.5,tension:.25,pointRadius:1.5,borderDash:[4,3]},
+  {label:'QQQ',data:qqqIdx,borderColor:'#ff4d5e',borderWidth:1.5,tension:.25,pointRadius:1.5,borderDash:[4,3]}
+]);
+
+new Chart(document.getElementById('donutOv'),{type:'doughnut',data:{labels:['Technology','Healthcare','Industrial','Utilities','Cash'],datasets:[{data:[43.7,18.8,19.8,10.8,6.8],backgroundColor:['#2563eb','#7c3aed','#0f9d58','#0d9488','#374151'],borderWidth:0,hoverOffset:4}]},options:{responsive:false,cutout:'68%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.label}: ${c.parsed}%`}}}}});
+
+new Chart(document.getElementById('ddChart'),{type:'line',data:{labels:dates,datasets:[{data:ddData,borderColor:'#ff4d5e',backgroundColor:'rgba(255,77,94,.1)',borderWidth:1.5,fill:true,tension:.2,pointRadius:2.5,pointBackgroundColor:'#ff4d5e'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(16,22,43,.96)',callbacks:{label:c=>`Drawdown: ${c.parsed.y.toFixed(2)}%`}}},scales:{x:{grid:{color:cGrid},ticks:{font:{size:9},maxRotation:45}},y:{grid:{color:cGrid},ticks:{font:{size:10},callback:v=>`${v.toFixed(1)}%`},max:.3}}}});
+
+new Chart(document.getElementById('retChart'),{type:'bar',data:{labels:dates,datasets:[{data:dr,backgroundColor:dr.map(v=>v>=0?'rgba(34,224,138,.75)':'rgba(255,77,94,.7)'),borderColor:dr.map(v=>v>=0?'#22e08a':'#ff4d5e'),borderWidth:1,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.parsed.y>=0?'+':''}${c.parsed.y.toFixed(2)}%`}}},scales:{x:{grid:{display:false},ticks:{font:{size:9},maxRotation:45}},y:{grid:{color:cGrid},ticks:{font:{size:10},callback:v=>`${v>=0?'+':''}${v.toFixed(1)}%`}}}}});
+
+const tk=['CEG','MSFT','NVDA','NOC','AVGO','LHX','VRTX','KTOS','LLY'];
+const pnl=[49.98,31.36,16.87,17.72,19.16,-8.33,-16.84,-3.39,-26.19];
+new Chart(document.getElementById('waterfallChart'),{type:'bar',data:{labels:tk,datasets:[{data:pnl,backgroundColor:pnl.map(v=>v>=0?'rgba(34,224,138,.8)':'rgba(255,77,94,.7)'),borderColor:pnl.map(v=>v>=0?'#22e08a':'#ff4d5e'),borderWidth:1,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`P&L: ${c.parsed.y>=0?'+':''}$${c.parsed.y.toFixed(2)}`}}},scales:{x:{grid:{display:false},ticks:{font:{size:12,family:"'JetBrains Mono'"},color:'rgba(75,85,115,.85)'}},y:{grid:{color:cGrid},ticks:{font:{size:10},callback:v=>`${v>=0?'+':''}$${v.toFixed(0)}`}}}}});
+
+const stocks={
+  nvda:{name:'NVIDIA Corp',sector:'Technology · Semiconductors',color:'#2563eb',qty:2.55,avg:199.97,cur:206.59,mv:526.80,pnl:16.87,pnlPct:3.31,wt:10.38,fund:'GPU monopoly with the CUDA moat. Gross margin 74.6%, OCF/NI 1.12×, Piotroski 7/9, Altman Z 14.2. ~$1T of committed hyperscaler demand through 2027.',tech:'Entered −15.8% off the ATH at $199.97, tagging the rising 200-DMA and the $190–200 support shelf. RSI ~46, neutral — a non-euphoric entry.'},
+  avgo:{name:'Broadcom Inc',sector:'Technology · Semiconductors',color:'#2563eb',qty:2.62,avg:378.69,cur:386.00,mv:1011.32,pnl:19.16,pnlPct:1.93,wt:19.92,fund:'Custom AI XPU for Google/Meta/MSFT/Anthropic. AI semi revenue +143% YoY. OCF/NI 1.41× (best in book). Morningstar ~37% below fair value. Replaced AMD, which had already run above its ATH.',tech:'Entered −23.5% off the $495 ATH after a post-earnings gap-down overshoot. Near the $360–380 demand zone plus the 200-DMA. RSI ~40, approaching oversold.'},
+  msft:{name:'Microsoft Corp',sector:'Technology · Software',color:'#b45309',qty:1.75,avg:372.14,cur:390.06,mv:682.60,pnl:31.36,pnlPct:4.82,wt:13.44,fund:'Azure +31%, EPS +21%, $627B backlog. 21.7× forward P/E — cheapest in 3 years. AI monetisation bet that works even if capex growth slows. Altman Z 9.28.',tech:'Entered just 6% off the 52-week low ($349), −32.7% off the high. RSI ~34, oversold into the $349–360 multi-year support zone. Textbook deep-value entry.'},
+  lly:{name:'Eli Lilly &amp; Co',sector:'Healthcare · Pharma',color:'#7c3aed',qty:0.49,avg:1210.45,cur:1157.00,mv:566.93,pnl:-26.19,pnlPct:-4.42,wt:11.16,fund:'GLP-1 decade-long cycle. Medicare coverage went live Jul 1. Gross margin 82.9%, ROIC 41.9%, beta 0.27 — a portfolio shock absorber. Foundayo oral pill approved.',tech:'Deliberate exception to my usual entry screen — entered −2.1% off the ATH, RSI ~68, justified by the Jul 1 Medicare catalyst. Planned a September DCA tranche to average down.'},
+  vrtx:{name:'Vertex Pharmaceuticals',sector:'Healthcare · Biotech',color:'#7c3aed',qty:0.81,avg:496.90,cur:476.11,mv:385.65,pnl:-16.84,pnlPct:-4.18,wt:7.59,fund:'CF (cystic fibrosis) monopoly, $13B cash, EPS +61% YoY, net margin 35%. Trades at 24× vs a 34× sector multiple. Five independent pipeline programmes (pain, kidney, T1D).',tech:'Entered mid-range of the 52-week $380–530 band. RSI ~52, neutral. Base-building entry above the rising 200-DMA (~$465). Planned to add below $460.'},
+  lhx:{name:'L3Harris Technologies',sector:'Industrial · Defence',color:'#0f9d58',qty:1.55,avg:290.13,cur:284.76,mv:441.38,pnl:-8.33,pnlPct:-1.85,wt:8.69,fund:'Record $40.7B backlog, 1.4× book-to-bill, EPS +33%. Beta 0.61 — a volatility anchor for the book. Dividend growth +9.6%/yr over the last decade. Piotroski 7/9, best score in the defence sleeve.',tech:'Entered −23.3% off the high into $280–295 support (held 3 times previously). RSI ~44. Consolidating above the rising 200-DMA (~$278).'},
+  noc:{name:'Northrop Grumman Corp',sector:'Industrial · Defence',color:'#0f9d58',qty:0.79,avg:507.18,cur:529.61,mv:418.39,pnl:17.72,pnlPct:4.42,wt:8.24,fund:'B-21 Raider — only 6th-gen bomber in production globally — plus the Sentinel ICBM programme, both multi-decade. Morningstar fair value $640 (+27% upside). Deep-value entry on a fixed-price overrun overreaction.',tech:'Best technical entry in the whole book — $507, just 5% above the 52-week low of $484, −34.7% off the high. RSI ~38, oversold. Reversal since confirmed (+3.12%).'},
+  ktos:{name:'Kratos Defense &amp; Security',sector:'Industrial · Defence',color:'#0f9d58',qty:3.02,avg:50.01,cur:48.89,mv:147.64,pnl:-3.39,pnlPct:-2.25,wt:2.91,fund:'Speculative, sized at ~2.8% of NAV deliberately. Valkyrie drone plus Spartan hypersonics. $14B+ opportunity pipeline vs a $2B backlog. Revenue +22.6%. Altman Z 11.77 (no distress signal) despite a weak Piotroski score of 3/9.',tech:'Entered −63% off the high, in the $46–52 support zone. RSI ~41. Planned to DCA-in across 4 tranches through the $40–70 range, with $40 as the line in the sand.'},
+  ceg:{name:'Constellation Energy Corp',sector:'Utilities · Nuclear',color:'#0d9488',qty:2.02,avg:247.17,cur:271.91,mv:549.26,pnl:49.98,pnlPct:10.01,wt:10.82,fund:'Nuclear power for AI datacenters — fully uncorrelated to chip-sector sentiment. 20-year PPAs with MSFT/Meta/Walmart. 21-reactor fleet. TIKR fair value estimate ~$505 by 2030.',tech:'Entered just 3% above the 52-week low of $240.51, −40% off the high. RSI ~36, oversold. Replaced an initial VRT idea after it broke my entry discipline with an +8.6% spike. Already +2.95% since entry.'}
+};
+function renderStock(id){
+  const s=stocks[id];
+  return `<div class="stock-detail" id="stock-${id}"><div class="stock-hero">
+    <div class="sh-top">
+      <div><div class="sh-ticker" style="color:${s.color}">${id.toUpperCase()}</div><div class="sh-name">${s.name}</div><div class="sh-sector">${s.sector}</div></div>
+      <div class="sh-right"><div class="sh-price">$${s.cur.toFixed(2)}</div><div class="sh-pnl ${s.pnl>=0?'g':'r'}">${s.pnl>=0?'+':''}$${s.pnl.toFixed(2)} (${s.pnlPct>=0?'+':''}${s.pnlPct.toFixed(2)}%)</div><div class="sh-alloc">${s.wt.toFixed(2)}% of NAV</div></div>
+    </div>
+    <div class="sh-metrics">
+      <div class="shm"><div class="shm-lbl">Shares</div><div class="shm-val">${s.qty}</div></div>
+      <div class="shm"><div class="shm-lbl">Avg Cost</div><div class="shm-val">$${s.avg.toFixed(2)}</div></div>
+      <div class="shm"><div class="shm-lbl">Market Value</div><div class="shm-val">$${s.mv.toFixed(2)}</div></div>
+      <div class="shm"><div class="shm-lbl">Weight</div><div class="shm-val">${s.wt.toFixed(2)}%</div></div>
+    </div>
+  </div>
+  <div class="thesis">
+    <div class="thesis-section"><div class="thesis-hl th-fund">▲ Fundamental Rationale</div><div class="thesis-body">${s.fund} <a href="memos.html#${id}" style="color:var(--gld)">Full memo →</a></div></div>
+    <div class="thesis-section"><div class="thesis-hl th-tech">◈ Technical Rationale</div><div class="thesis-body">${s.tech}</div></div>
+  </div></div>`;
+}
+document.getElementById('stockContainer').innerHTML=Object.keys(stocks).map(renderStock).join('');
+document.getElementById('stock-nvda').classList.add('active');
+function showStock(id,btn){
+  document.querySelectorAll('.stock-detail').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.stock-btn').forEach(b=>{b.classList.remove('active');b.style.background='';b.style.borderColor='';b.style.color='';});
+  document.getElementById('stock-'+id).classList.add('active');
+  btn.classList.add('active');const c=stocks[id].color;btn.style.background=c;btn.style.borderColor=c;btn.style.color='#fff';
+}
+
+const SEED=[
+  {id:1,date:'2026-06-30',action:'BUY',ticker:'AVGO',qty:2.62,price:378.69,order:'LIMIT',fund:'Custom AI XPU for Google/Meta/MSFT/Anthropic. AI semi revenue +143% YoY. OCF/NI 1.41× (best in book). Morningstar ~37% below fair value. Replaced AMD, which had already run above its ATH.',tech:'Entered −23.5% off the $495 ATH after a post-earnings gap-down overshoot. Near the $360–380 demand zone plus the 200-DMA. RSI ~40, approaching oversold.'},
+  {id:2,date:'2026-06-30',action:'BUY',ticker:'MSFT',qty:1.75,price:372.14,order:'MARKET',fund:'Azure +31%, EPS +21%, $627B backlog. 21.7× forward P/E — cheapest in 3 years. AI monetisation bet that works even if capex growth slows. Altman Z 9.28.',tech:'Entered just 6% off the 52-week low ($349), −32.7% off the high. RSI ~34, oversold into the $349–360 multi-year support zone. Textbook deep-value entry.'},
+  {id:3,date:'2026-06-30',action:'BUY',ticker:'LLY',qty:0.49,price:1210.45,order:'LIMIT',fund:'GLP-1 decade-long cycle. Medicare coverage went live Jul 1. Gross margin 82.9%, ROIC 41.9%, beta 0.27 — a portfolio shock absorber. Foundayo oral pill approved.',tech:'Deliberate exception to my usual entry screen — entered −2.1% off the ATH, RSI ~68, justified by the Jul 1 Medicare catalyst. Planned a September DCA tranche to average down.'},
+  {id:4,date:'2026-06-30',action:'BUY',ticker:'NVDA',qty:2.55,price:199.97,order:'LIMIT',fund:'GPU monopoly with the CUDA moat. Gross margin 74.6%, OCF/NI 1.12×, Piotroski 7/9, Altman Z 14.2. ~$1T of committed hyperscaler demand through 2027.',tech:'Entered −15.8% off the ATH at $199.97, tagging the rising 200-DMA and the $190–200 support shelf. RSI ~46, neutral — a non-euphoric entry.'},
+  {id:5,date:'2026-06-30',action:'BUY',ticker:'VRTX',qty:0.81,price:496.90,order:'MARKET',fund:'CF (cystic fibrosis) monopoly, $13B cash, EPS +61% YoY, net margin 35%. Trades at 24× vs a 34× sector multiple. Five independent pipeline programmes (pain, kidney, T1D).',tech:'Entered mid-range of the 52-week $380–530 band. RSI ~52, neutral. Base-building entry above the rising 200-DMA (~$465). Planned to add below $460.'},
+  {id:6,date:'2026-06-30',action:'BUY',ticker:'LHX',qty:1.55,price:290.13,order:'MARKET',fund:'Record $40.7B backlog, 1.4× book-to-bill, EPS +33%. Beta 0.61 — a volatility anchor for the book. Dividend growth +9.6%/yr over the last decade. Piotroski 7/9, best score in the defence sleeve.',tech:'Entered −23.3% off the high into $280–295 support (held 3 times previously). RSI ~44. Consolidating above the rising 200-DMA (~$278).'},
+  {id:7,date:'2026-06-30',action:'BUY',ticker:'NOC',qty:0.79,price:507.18,order:'LIMIT',fund:'B-21 Raider — only 6th-gen bomber in production globally — plus the Sentinel ICBM programme, both multi-decade. Morningstar fair value $640 (+27% upside). Deep-value entry on a fixed-price overrun overreaction.',tech:'Best technical entry in the whole book — $507, just 5% above the 52-week low of $484, −34.7% off the high. RSI ~38, oversold. Reversal since confirmed (+3.12%).'},
+  {id:8,date:'2026-06-30',action:'BUY',ticker:'KTOS',qty:3.02,price:50.01,order:'MARKET',fund:'Speculative, sized at ~2.8% of NAV deliberately. Valkyrie drone plus Spartan hypersonics. $14B+ opportunity pipeline vs a $2B backlog. Revenue +22.6%. Altman Z 11.77 (no distress signal) despite a weak Piotroski score of 3/9.',tech:'Entered −63% off the high, in the $46–52 support zone. RSI ~41. Planned to DCA-in across 4 tranches through the $40–70 range, with $40 as the line in the sand.'},
+  {id:9,date:'2026-06-30',action:'BUY',ticker:'CEG',qty:2.02,price:247.17,order:'LIMIT',fund:'Nuclear power for AI datacenters — fully uncorrelated to chip-sector sentiment. 20-year PPAs with MSFT/Meta/Walmart. 21-reactor fleet. TIKR fair value estimate ~$505 by 2030.',tech:'Entered just 3% above the 52-week low of $240.51, −40% off the high. RSI ~36, oversold. Replaced an initial VRT idea after it broke my entry discipline with an +8.6% spike. Already +2.95% since entry.'}
+];
+let trades=[];
+function loadTrades(){
+  try{const raw=localStorage.getItem('jstrades');trades=raw?JSON.parse(raw):SEED.slice();}
+  catch(e){trades=SEED.slice();}
+  renderTrades();
+}
+function persistTrades(){try{localStorage.setItem('jstrades',JSON.stringify(trades));}catch(e){}}
+function resetTrades(){trades=SEED.slice();persistTrades();renderTrades();}
+function renderTrades(){
+  const fA=document.getElementById('logFilter').value,fT=document.getElementById('logTicker').value;
+  let list=trades.filter(t=>(fA==='all'||t.action===fA)&&(fT==='all'||t.ticker===fT));
+  list=list.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);
+  const colors={NVDA:'chip-blu',AVGO:'chip-blu',MSFT:'chip-gld',LLY:'chip-pur',VRTX:'chip-pur',LHX:'chip-grn',NOC:'chip-grn',KTOS:'chip-grn',CEG:'chip-tel'};
+  const actCls={BUY:'ta-buy',SELL:'ta-sell'};
+  document.getElementById('tradeList').innerHTML=list.map(t=>{
+    const val=(t.qty*t.price).toFixed(2);
+    return `<div class="trade-item" id="tr-${t.id}">
+      <div class="trade-head" onclick="toggleTrade(${t.id})">
+        <span class="trade-date">${t.date}</span>
+        <span class="trade-action ${actCls[t.action]||'ta-buy'}">${t.action}</span>
+        <span class="trade-desc"><span class="chip ${colors[t.ticker]||'chip-blu'}">${t.ticker}</span> &nbsp;${t.qty} sh @ $${t.price} <span class="sub">· ${t.order||''}</span></span>
+        <span class="trade-val">$${val}</span>
+        <span class="trade-val" style="color:var(--txt3)">≈${((val/4649.65)*100).toFixed(1)}%</span>
+        <span class="trade-expand">⌄</span>
+      </div>
+      <div class="trade-body"><div class="trade-rationale">
+        <div class="tr-meta">
+          <div class="trm"><div class="trm-l">Shares</div><div class="trm-v">${t.qty}</div></div>
+          <div class="trm"><div class="trm-l">Price</div><div class="trm-v">$${t.price}</div></div>
+          <div class="trm"><div class="trm-l">Value</div><div class="trm-v">$${val}</div></div>
+          <div class="trm"><div class="trm-l">Order</div><div class="trm-v">${t.order||'—'}</div></div>
+        </div>
+        <div class="tr-block"><div class="tr-hl th-fund">▲ Fundamental rationale</div><div class="tr-body">${t.fund||'Not yet written up.'}</div></div>
+        <div class="tr-block"><div class="tr-hl th-tech">◈ Technical rationale</div><div class="tr-body">${t.tech||'Not yet written up.'}</div></div>
+      </div></div>
+    </div>`;
+  }).join('')||'<div style="text-align:center;color:var(--txt3);padding:30px;font-size:13px">No trades match filter.</div>';
+}
+function toggleTrade(id){document.getElementById('tr-'+id).classList.toggle('open');}
+loadTrades();
+</script>
+</body>
+</html>

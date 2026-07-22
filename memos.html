@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Jasdeep Singh — Investment Memos</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f4f6fb;--bg2:#ffffff;--bg3:#eef1f8;--bg4:#eceffa;
+  --bdr:#e3e7f0;--bdr2:#ced4e3;
+  --txt:#10162b;--txt2:#4b5573;--txt3:#7c86a0;--txt4:#a7aec2;
+  --grn:#0f9d58;--grnbg:rgba(15,157,88,.10);--grnbd:rgba(15,157,88,.28);
+  --red:#dc2626;--redbg:rgba(220,38,38,.08);--redbd:rgba(220,38,38,.25);
+  --blu:#2563eb;--blubg:rgba(37,99,235,.08);--blubd:rgba(37,99,235,.25);
+  --gld:#b45309;--gldbg:rgba(180,83,9,.09);--gldbd:rgba(180,83,9,.28);
+  --pur:#7c3aed;--tel:#0d9488;
+  --r:10px;--sans:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;--serif:'Playfair Display',serif;
+  --shadow:0 1px 2px rgba(16,22,43,.04),0 6px 18px -6px rgba(16,22,43,.08);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans);line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased}
+.topnav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr)}
+.nav-inner{max-width:1180px;margin:0 auto;display:flex;align-items:center;overflow-x:auto;scrollbar-width:none;padding:0 20px}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-brand{font-family:var(--serif);font-size:15px;font-style:italic;color:var(--gld);white-space:nowrap;padding:16px 24px 16px 0;flex-shrink:0;border-right:1px solid var(--bdr);margin-right:8px;text-decoration:none}
+.nav-tab{padding:16px 16px;font-size:12px;font-weight:500;color:var(--txt3);text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;transition:color .15s;flex-shrink:0}
+.nav-tab:hover{color:var(--txt2)}
+.nav-tab.active{color:var(--gld);border-bottom-color:var(--gld)}
+.wrap{max-width:1180px;margin:0 auto;padding:32px 20px 80px}
+.hero{background:#fff;border:1px solid var(--bdr);border-radius:16px;padding:36px 40px;margin-bottom:28px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(255,176,32,.14),transparent 70%);pointer-events:none}
+.hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gld);margin-bottom:12px;position:relative}
+.hero-name{font-family:var(--serif);font-size:clamp(26px,4vw,36px);line-height:1.15;margin-bottom:12px;position:relative;background:linear-gradient(90deg,var(--txt),var(--gld) 140%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero-desc{font-size:13.5px;color:var(--txt2);line-height:1.8;position:relative}
+.note-box{background:var(--gldbg);border:1px solid var(--gldbd);border-radius:12px;padding:18px 22px;font-size:12.5px;color:var(--txt2);line-height:1.75;margin-bottom:24px}
+.note-box strong{color:var(--txt)}
+.jump{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:32px}
+.jump a{padding:8px 15px;border-radius:7px;font-size:12px;font-weight:600;font-family:var(--mono);border:1px solid var(--bdr);background:var(--bg2);color:var(--txt3);text-decoration:none;transition:all .15s}
+.jump a:hover{border-color:var(--bdr2);color:var(--txt)}
+.memo{background:var(--bg2);border:1px solid var(--bdr);border-radius:14px;padding:28px 30px;margin-bottom:20px;scroll-margin-top:70px;box-shadow:var(--shadow)}
+.memo-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:6px;padding-bottom:18px;border-bottom:1px solid var(--bdr)}
+.memo-ticker{font-family:var(--mono);font-size:26px;font-weight:700}
+.memo-name{font-size:13px;color:var(--txt2);margin-top:3px}
+.memo-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.tag{font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;font-family:var(--mono)}
+.memo-right{text-align:right}
+.memo-stat{font-family:var(--mono);font-size:13px}
+.memo-stat-lbl{font-size:9px;color:var(--txt3);text-transform:uppercase;letter-spacing:.07em;margin-top:2px}
+.memo-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin:18px 0}
+.mm{background:var(--bg3);border-radius:7px;padding:10px 12px}
+.mm-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--txt3);margin-bottom:3px}
+.mm-val{font-family:var(--mono);font-size:13px;font-weight:500}
+.sec{margin-top:20px}
+.sec:first-of-type{margin-top:0}
+.sec-hl{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;display:inline-flex;align-items:center;gap:7px}
+.hl-fund{color:var(--tel)}.hl-tech{color:var(--gld)}.hl-cat{color:var(--blu)}.hl-risk{color:var(--red)}
+.sec-body{font-size:13px;color:var(--txt2);line-height:1.8}
+.sec-body b{color:var(--txt)}
+.sec-body ul{margin:8px 0 0 18px}
+.sec-body li{margin-bottom:5px}
+.g{color:var(--grn)}.r{color:var(--red)}
+.disclaimer{background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--r);padding:15px 18px;font-size:11px;color:var(--txt3);line-height:1.65;margin-top:24px}
+@media(max-width:640px){.memo{padding:20px 18px}.hero{padding:26px 22px}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <div class="nav-inner">
+    <a href="profile.html" class="nav-brand">Jasdeep Singh</a>
+    <a href="profile.html" class="nav-tab">Profile</a>
+    <a href="portfolio.html" class="nav-tab">Portfolio</a>
+    <a href="memos.html" class="nav-tab active">Investment Memos</a>
+  </div>
+</nav>
+<div class="wrap">
+  <div class="hero">
+    <div class="hero-eyebrow">Investment Memos · 9 Holdings · Updated 22 Jul 2026</div>
+    <div class="hero-name">Fundamental notes on every position</div>
+    <div class="hero-desc">Short-form memos for each of the nine names in the portfolio — the business case, the most recent quarter, and the risks I'm watching. These are written from public filings, earnings calls, and reporting; entry prices and position data are pulled live from the brokerage account.</div>
+  </div>
+
+  <div class="jump">
+    <a href="#nvda">NVDA</a><a href="#avgo">AVGO</a><a href="#msft">MSFT</a><a href="#lly">LLY</a><a href="#vrtx">VRTX</a><a href="#lhx">LHX</a><a href="#noc">NOC</a><a href="#ktos">KTOS</a><a href="#ceg">CEG</a>
+  </div>
+
+  <!-- NVDA -->
+  <div class="memo" id="nvda" style="border-top:3px solid var(--blu)">
+    <div class="memo-head">
+      <div><div class="memo-ticker" style="color:var(--blu)">NVDA</div><div class="memo-name">NVIDIA Corp · Technology, Semiconductors</div>
+        <div class="memo-tags"><span class="tag" style="background:var(--blubg);color:var(--blu)">AI Infrastructure</span><span class="tag" style="background:var(--gldbg);color:var(--gld)">10.38% of book</span></div>
+      </div>
+      <div class="memo-right"><div class="memo-stat">$199.97 → $206.59</div><div class="memo-stat-lbl">Entry → Current</div></div>
+    </div>
+    <div class="memo-metrics">
+      <div class="mm"><div class="mm-lbl">Shares</div><div class="mm-val">2.55</div></div>
+      <div class="mm"><div class="mm-lbl">Return</div><div class="mm-val g">+3.31%</div></div>
+      <div class="mm"><div class="mm-lbl">Latest Qtr Revenue</div><div class="mm-val">$81.6B</div></div>
+      <div class="mm"><div class="mm-lbl">Qtr YoY Growth</div><div class="mm-val">+85%</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-fund">▲ Business &amp; latest quarter</div>
+      <div class="sec-body">NVIDIA's fiscal Q1 FY2027 results (reported May 20, 2026) showed record revenue of <b>$81.6 billion</b>, up 85% year-over-year and ahead of the $78.8B Wall Street estimate, with adjusted EPS of $1.87 beating the $1.76 consensus. Data center revenue continues to dominate the mix — now roughly 87-90% of total sales — powered by the Blackwell GPU generation, which CEO Jensen Huang described as sold out across cloud providers. Gross margin sits around 75%. For Q2 FY27, guidance came in at <b>$91.0 billion</b>, above the $86.84B analysts expected. The company also raised its quarterly dividend from $0.01 to $0.25/share and returned roughly $20 billion to shareholders in the quarter via buybacks and dividends combined — a signal of confidence in free cash flow durability even amid heavy capex.</div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-cat">● Why it's in the book</div>
+      <div class="sec-body">NVIDIA remains the default platform for AI training and increasingly inference — management points to its chips running "every frontier AI model" across hyperscalers, and the new Vera CPU line opens what the company frames as a further $200B addressable opportunity. The entry was sized as a core holding rather than a swing trade: the thesis is multi-year AI infrastructure demand, not a single-quarter print.</div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-risk">■ Risks to watch</div>
+      <div class="sec-body">Valuation is not cheap at ~30x forward earnings, so even strong beats can produce muted or negative stock reactions if guidance doesn't clear the market's already-high bar (this happened after the May print). Customer concentration among a handful of hyperscalers, and China/export-control policy, remain structural risks outside the company's control.</div>
+    </div>
+  </div>
+
+  <!-- AVGO -->
+  <div class="memo" id="avgo" style="border-top:3px solid var(--blu)">
+    <div class="memo-head">
+      <div><div class="memo-ticker" style="color:var(--blu)">AVGO</div><div class="memo-name">Broadcom Inc · Technology, Semiconductors</div>
+        <div class="memo-tags"><span class="tag" style="background:var(--blubg);color:var(--blu)">Custom Silicon</span><span class="tag" style="background:var(--gldbg);color:var(--gld)">19.92% of book · largest position</span></div>
+      </div>
+      <div class="memo-right"><div class="memo-stat">$378.69 → $386.00</div><div class="memo-stat-lbl">Entry → Current</div></div>
+    </div>
+    <div class="memo-metrics">
+      <div class="mm"><div class="mm-lbl">Shares</div><div class="mm-val">2.62</div></div>
+      <div class="mm"><div class="mm-lbl">Return</div><div class="mm-val g">+2.75%</div></div>
+      <div class="mm"><div class="mm-lbl">Latest Qtr AI Revenue</div><div class="mm-val">$10.8B</div></div>
+      <div class="mm"><div class="mm-lbl">AI Rev. YoY Growth</div><div class="mm-val">+143%</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-fund">▲ Business &amp; latest quarter</div>
+      <div class="sec-body">Broadcom's Q2 FY2026 results (June 3, 2026) showed total revenue of $22.2 billion, up 48% year-over-year, with AI semiconductor revenue of <b>$10.8 billion</b>, up 143% — now roughly half of total revenue. The stock still fell about 3% on the print, not because the AI business disappointed, but because infrastructure software revenue narrowly missed estimates ($7.18B vs $7.32B) and Q3 AI guidance of $16 billion, while up over 200% year-over-year, landed below what the most aggressive buy-side models had priced in. Full-year 2026 AI revenue guidance stands at ~$56 billion (+180%), with management reiterating FY2027 AI revenue above $100 billion.</div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-cat">● Why it's in the book</div>
+      <div class="sec-body">Broadcom's model is different from NVIDIA's: rather than selling off-the-shelf GPUs, it co-designs custom XPU accelerators directly with hyperscaler customers (Google, Meta, Anthropic, OpenAI among the six core customers cited), each requiring an 18-24 month co-engineering cycle. That creates high switching costs and multi-year revenue visibility once a customer is locked in. Broadcom has also moved into infrastructure partnerships — a deal with Apollo and Blackstone to deploy over 20 gigawatts of AI compute capacity, with a first tranche valued at $35 billion.</div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-risk">■ Risks to watch</div>
+      <div class="sec-body">This is the largest single position in the book at ~19.8% of NAV, close to a self-imposed 20% single-name guideline — any further appreciation likely triggers a trim discussion rather than letting it run further. The stock is also priced for perfection after a ~40% year-to-date run into the print; the software segment (VMware integration) is a second growth engine that needs to execute alongside the AI story, not just ride on it.</div>
+    </div>
+  </div>
+
+  <!-- MSFT -->
+  <div class="memo" id="msft" style="border-top:3px solid var(--gld)">
+    <div class="memo-head">
+      <div><div class="memo-ticker" style="color:var(--gld)">MSFT</div><div class="memo-name">Microsoft Corp · Technology, Software</div>
+        <div class="memo-tags"><span class="tag" style="background:var(--gldbg);color:var(--gld)">Cloud &amp; AI</span><span class="tag" style="background:var(--grnbg);color:var(--grn)">13.44% of book · best performer</span></div>
+      </div>
+      <div class="memo-right"><div class="memo-stat">$372.14 → $390.06</div><div class="memo-stat-lbl">Entry → Current</div></div>
+    </div>
+    <div class="memo-metrics">
+      <div class="mm"><div class="mm-lbl">Shares</div><div class="mm-val">1.75</div></div>
+      <div class="mm"><div class="mm-lbl">Return</div><div class="mm-val g">+4.82%</div></div>
+      <div class="mm"><div class="mm-lbl">Latest Qtr Revenue</div><div class="mm-val">$82.89B</div></div>
+      <div class="mm"><div class="mm-lbl">Azure Growth (guided)</div><div class="mm-val">39–40%</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-fund">▲ Business &amp; latest quarter</div>
+      <div class="sec-body">Microsoft's fiscal Q3 2026 results (late April 2026) beat on both lines — adjusted EPS of $4.27 versus $4.06 expected, revenue of $82.89 billion — with Azure guided to 39-40% constant-currency growth for Q4. The company disclosed FY2026 capital expenditure would reach roughly $190 billion, driven partly by soaring memory costs, and gross margin (67.6%) hit its narrowest level since 2022 as data center depreciation scales with the buildout. Microsoft 365 Copilot has crossed 20 million paid commercial seats. Q4 FY2026 results are expected imminently, with analysts (HSBC, as of mid-July) forecasting ~$89.3 billion revenue, +16.8% year-over-year, and Azure growth near 39.6%.</div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-cat">● Why it's in the book</div>
+      <div class="sec-body">Microsoft is the best-performing position in the book so far, and the thesis was a deep-value one at entry: the shares were bought close to a 52-week low, at a relatively cheap forward multiple for a company with a durable enterprise cloud and productivity franchise plus a real AI monetization path through Copilot and the OpenAI partnership. Diversified revenue (cloud, productivity, gaming, LinkedIn) makes the business less single-threaded than pure-play AI infrastructure names.</div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-risk">■ Risks to watch</div>
+      <div class="sec-body">Margin compression from the AI infrastructure buildout is real and ongoing — gross margin has been trending down as depreciation scales faster than efficiency gains. GPU supply constraints have, at times, capped how fast Azure can convert demand into recognized revenue. Capex intensity at this scale requires sustained enterprise AI monetization to justify the spend.</div>
+    </div>
+  </div>
+
+  <!-- LLY -->
+  <div class="memo" id="lly" style="border-top:3px solid var(--pur)">
+    <div class="memo-head">
+      <div><div class="memo-ticker" style="color:var(--pur)">LLY</div><div class="memo-name">Eli Lilly &amp; Co · Healthcare, Pharma</div>
+        <div class="memo-tags"><span class="tag" style="background:rgba(192,132,252,.15);color:var(--pur)">GLP-1 / Obesity</span><span class="tag" style="background:var(--redbg);color:var(--red)">11.16% of book · largest $ drawdown</span></div>
+      </div>
+      <div class="memo-right"><div class="memo-stat">$1,210.45 → $1,157.00</div><div class="memo-stat-lbl">Entry → Current</div></div>
+    </div>
+    <div class="memo-metrics">
+      <div class="mm"><div class="mm-lbl">Shares</div><div class="mm-val">0.49</div></div>
+      <div class="mm"><div class="mm-lbl">Return</div><div class="mm-val r">−4.42%</div></div>
+      <div class="mm"><div class="mm-lbl">Latest Qtr Revenue</div><div class="mm-val">$19.8B</div></div>
+      <div class="mm"><div class="mm-lbl">Qtr YoY Growth</div><div class="mm-val">+56%</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-fund">▲ Business &amp; latest quarter</div>
+      <div class="sec-body">Eli Lilly's Q1 2026 results (April 30, 2026) were a large beat: revenue of $19.8 billion, up 56% year-over-year, with adjusted EPS of $8.55 well above the ~$6.66-6.79 consensus. Mounjaro (type 2 diabetes) grew 125% to $8.66 billion; Zepbound (obesity) grew 80% to $4.16 billion in the US alone. Lilly raised full-year 2026 revenue guidance to $82-85 billion (from $80-83 billion) and lifted adjusted EPS guidance to $35.50-37.00. The quarter also marked the launch of <b>Foundayo</b> (orforglipron), the first GLP-1 pill approved that can be taken any time of day without food or water restrictions — a meaningful access unlock versus injectable competitors. Medicare Bridge coverage for Foundayo began July 1, 2026.</div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-cat">● Why it's in the book</div>
+      <div class="sec-body">Lilly holds roughly 60% share of the global GLP-1 market and is positioned as the structural leader in what's likely a decade-long obesity/metabolic disease treatment cycle, now compounded by an oral pill that can expand the addressable patient population well beyond injectables. Beta is low relative to the rest of the book, intended as a partial shock absorber alongside the higher-beta tech/defence sleeves.</div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-risk">■ Risks to watch</div>
+      <div class="sec-body">This is the largest dollar drawdown in the book, entered close to an all-time high with limited margin of safety — a near-ATH entry into a subsequent broad market pullback explains most of the underperformance so far rather than any company-specific issue. Pricing pressure from US drug-pricing negotiations and lower realized prices (both drugs saw price declines even as volume surged) are an ongoing offset to volume growth. Retatrutide Phase 3 data and continued Foundayo ramp are the next catalysts to watch.</div>
+    </div>
+  </div>
+
+  <!-- VRTX -->
+  <div class="memo" id="vrtx" style="border-top:3px solid var(--pur)">
+    <div class="memo-head">
+      <div><div class="memo-ticker" style="color:var(--pur)">VRTX</div><div class="memo-name">Vertex Pharmaceuticals · Healthcare, Biotech</div>
+        <div class="memo-tags"><span class="tag" style="background:rgba(192,132,252,.15);color:var(--pur)">CF Franchise</span><span class="tag" style="background:var(--gldbg);color:var(--gld)">7.59% of book</span></div>
+      </div>
+      <div class="memo-right"><div class="memo-stat">$496.90 → $476.11</div><div class="memo-stat-lbl">Entry → Current</div></div>
+    </div>
+    <div class="memo-metrics">
+      <div class="mm"><div class="mm-lbl">Shares</div><div class="mm-val">0.81</div></div>
+      <div class="mm"><div class="mm-lbl">Return</div><div class="mm-val r">−4.18%</div></div>
+      <div class="mm"><div class="mm-lbl">Latest Qtr Revenue</div><div class="mm-val">$2.99B</div></div>
+      <div class="mm"><div class="mm-lbl">Qtr YoY Growth</div><div class="mm-val">+8%</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-fund">▲ Business &amp; latest quarter</div>
+      <div class="sec-body">Vertex's Q1 2026 results (May 4, 2026) showed total revenue of $2.99 billion, up 8% year-over-year, with non-GAAP EPS of $4.47. The core cystic fibrosis (CF) franchise remains the volume anchor, with ALYFTREK — its newest CF drug — crossing $1 billion in cumulative revenue since its December 2024 approval. The bigger story is diversification: gene-editing therapy <b>CASGEVY</b> (for sickle cell disease and beta thalassemia) generated $43 million and non-opioid pain drug <b>JOURNAVX</b> generated $29 million in the quarter — together contributing over a quarter of year-over-year growth. Full-year 2026 guidance of $12.95-13.1 billion in revenue (8-9% growth) was reaffirmed. JOURNAVX now has access to over 200 million covered lives, roughly two-thirds of US commercial and government-covered lives, with prescriptions expected to more than triple in 2026 versus 2025.</div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-cat">● Why it's in the book</div>
+      <div class="sec-body">Vertex holds a near-monopoly in CF treatment with strong pricing power and margins, and is using that cash generation to fund a genuine diversification into new disease areas (sickle cell, acute pain, and a nascent nephrology franchise via povetacicept). The entry was a base-building one — bought mid-range of the 52-week band rather than chasing a breakout.</div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-risk">■ Risks to watch</div>
+      <div class="sec-body">JOURNAVX's ramp, while directionally strong, remains well below the run-rate needed to hit management's full-year ambition and depends on gross-to-net normalization through H2 2026. CASGEVY's rollout is still small in absolute dollars and gated by the complexity of the gene-therapy treatment/infusion process. The nephrology franchise is early-stage and unproven commercially.</div>
+    </div>
+  </div>
+
+  <!-- LHX -->
+  <div class="memo" id="lhx" style="border-top:3px solid var(--grn)">
+    <div class="memo-head">
+      <div><div class="memo-ticker" style="color:var(--grn)">LHX</div><div class="memo-name">L3Harris Technologies · Industrial, Defence</div>
+        <div class="memo-tags"><span class="tag" style="background:var(--grnbg);color:var(--grn)">Defence Tech</span><span class="tag" style="background:var(--gldbg);color:var(--gld)">8.69% of book</span></div>
+      </div>
+      <div class="memo-right"><div class="memo-stat">$290.13 → $284.76</div><div class="memo-stat-lbl">Entry → Current</div></div>
+    </div>
+    <div class="memo-metrics">
+      <div class="mm"><div class="mm-lbl">Shares</div><div class="mm-val">1.55</div></div>
+      <div class="mm"><div class="mm-lbl">Return</div><div class="mm-val r">−1.85%</div></div>
+      <div class="mm"><div class="mm-lbl">Backlog</div><div class="mm-val">$40B+</div></div>
+      <div class="mm"><div class="mm-lbl">Next Earnings</div><div class="mm-val">Jul 29, 2026</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-fund">▲ Business &amp; latest quarter</div>
+      <div class="sec-body">L3Harris's Q1 2026 results (April 30, 2026) showed revenue of $5.74 billion, up 12% year-over-year, EPS of $2.74-2.86 depending on the source (beating estimates either way), and net income up 33%. The standout number was backlog, which nearly doubled to <b>over $40 billion</b> — roughly two times annual revenue coverage — and that figure doesn't even include an additional ~$25 billion of Munitions Acceleration Council orders still in negotiation. FY2026 guidance was reaffirmed/raised: revenue of $23.0-23.5 billion and GAAP EPS raised to $11.40-11.60. At its July 2026 investor day, management laid out a 2028 target of $27 billion revenue, an 8% CAGR. <b>Q2 2026 earnings are scheduled for July 29, 2026</b> — the next real catalyst for this position.</div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-cat">● Why it's in the book</div>
+      <div class="sec-body">L3Harris sits across space sensing, missile defense, ISR, resilient communications, and munitions — categories management describes as the fastest-growing parts of the defense budget, against a backdrop of a proposed FY2027 US defense budget near $1.5 trillion. The backlog-to-revenue coverage gives unusual multi-year visibility for an industrial name.</div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-risk">■ Risks to watch</div>
+      <div class="sec-body">Converting record backlog into recognized revenue and margin depends on execution and supply chain throughput, both of which the company has flagged as areas of active investment. Government shutdown risk and contract/budget timing delays are a recurring theme across the whole defence sleeve, not unique to L3Harris.</div>
+    </div>
+  </div>
+
+  <!-- NOC -->
+  <div class="memo" id="noc" style="border-top:3px solid var(--grn)">
+    <div class="memo-head">
+      <div><div class="memo-ticker" style="color:var(--grn)">NOC</div><div class="memo-name">Northrop Grumman Corp · Industrial, Defence</div>
+        <div class="memo-tags"><span class="tag" style="background:var(--grnbg);color:var(--grn)">B-21 / Sentinel</span><span class="tag" style="background:var(--grnbg);color:var(--grn)">7.96% of book</span></div>
+      </div>
+      <div class="memo-right"><div class="memo-stat">$507.18 → $529.61</div><div class="memo-stat-lbl">Entry → Current</div></div>
+    </div>
+    <div class="memo-metrics">
+      <div class="mm"><div class="mm-lbl">Shares</div><div class="mm-val">0.79</div></div>
+      <div class="mm"><div class="mm-lbl">Return</div><div class="mm-val g">+4.42%</div></div>
+      <div class="mm"><div class="mm-lbl">Backlog</div><div class="mm-val">$95.6B</div></div>
+      <div class="mm"><div class="mm-lbl">Q1 EPS Growth</div><div class="mm-val">+82%</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-fund">▲ Business &amp; latest quarter</div>
+      <div class="sec-body">Northrop Grumman's Q1 2026 results (April 21, 2026) showed sales of $9.9 billion (+4% YoY) but net earnings up a much sharper 82% to $875 million, diluted EPS of $6.14 — the jump largely reflects the prior-year quarter having absorbed a one-time $477 million loss provision on the B-21 Raider program that didn't recur. Operating margin recovered to 10.0% from 6.1%. Backlog stands at ~$95.6 billion. The company reached agreement with the US Air Force to increase B-21 production capacity by 25% (a $2.5 billion company-funded investment), and the Sentinel next-generation ICBM program continues to ramp toward a Milestone B decision later in 2026 and first flight in 2027. FY2026 guidance was reaffirmed at $43.5-44.0 billion sales, $27.40-27.90 EPS.</div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-cat">● Why it's in the book</div>
+      <div class="sec-body">Northrop is one of a handful of primes on the B-21 (the only sixth-generation bomber in production) and the Sentinel ICBM modernization — both multi-decade programs with limited competitive alternatives. The entry was the best technical timing in the whole defence sleeve, bought close to the stock's 52-week low after the market had already priced in the B-21 loss provision.</div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-risk">■ Risks to watch</div>
+      <div class="sec-body">Sentinel has a documented history of cost overruns and schedule delays that led the Air Force to restructure the program once already — further cost/timeline renegotiation is a real possibility. Capex commitments tied to B-21 capacity expansion ($1.85 billion planned for 2026) will pressure near-term free cash flow even as they underpin longer-term revenue visibility.</div>
+    </div>
+  </div>
+
+  <!-- KTOS -->
+  <div class="memo" id="ktos" style="border-top:3px solid var(--grn)">
+    <div class="memo-head">
+      <div><div class="memo-ticker" style="color:var(--grn)">KTOS</div><div class="memo-name">Kratos Defense &amp; Security Solutions · Industrial, Defence</div>
+        <div class="memo-tags"><span class="tag" style="background:var(--grnbg);color:var(--grn)">Drones / Hypersonics</span><span class="tag" style="background:var(--redbg);color:var(--red)">2.91% of book · smallest, most volatile</span></div>
+      </div>
+      <div class="memo-right"><div class="memo-stat">$50.01 → $48.89</div><div class="memo-stat-lbl">Entry → Current</div></div>
+    </div>
+    <div class="memo-metrics">
+      <div class="mm"><div class="mm-lbl">Shares</div><div class="mm-val">3.02</div></div>
+      <div class="mm"><div class="mm-lbl">Return</div><div class="mm-val r">−2.25%</div></div>
+      <div class="mm"><div class="mm-lbl">Backlog</div><div class="mm-val">$2.0B</div></div>
+      <div class="mm"><div class="mm-lbl">Book-to-bill</div><div class="mm-val">1.6x</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-fund">▲ Business &amp; latest quarter</div>
+      <div class="sec-body">Kratos's Q1 2026 results (~May 6, 2026) showed revenue of $371 million, up 22.6% year-over-year, adjusted EPS of $0.16, and a record backlog of roughly $2 billion at a healthy 1.6x book-to-bill ratio, against a stated $14.3 billion opportunity pipeline. Unmanned Systems revenue grew 30.9% organically, driven mostly by the <b>Valkyrie</b> drone program, which management plans to scale toward ~40 units/year by early 2028. Hypersonics revenue is guided at roughly $400 million in 2026, rising to $700 million in 2027, with a $1 billion-plus sole-source hypersonic award verbally indicated but not yet formalized. The company also won a $447 million US Space Force contract for missile warning/tracking. FY2026 revenue guidance was raised to $1.7-1.76 billion.</div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-cat">● Why it's in the book</div>
+      <div class="sec-body">Kratos is a smaller, higher-risk/higher-torque bet on the "affordable, attritable" drone and hypersonics theme within defence — a different exposure than the large-prime names (LHX, NOC) in the same sleeve. Sized deliberately small (under 3% of NAV) given the volatility and earlier-stage financial profile relative to the primes.</div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-risk">■ Risks to watch</div>
+      <div class="sec-body">This is the largest percentage loss in the book. Days sales outstanding (DSO) rose to 130 days from 121 in the prior quarter, partly attributed to the federal government shutdown/continuing-resolution timing affecting milestone billing and collections — worth monitoring at the next print. The company is running negative free cash flow while it builds out production capacity (Valkyrie, jet engines, hypersonics), and management has flagged labor availability, specifically turbomachinery engineers, as a constraint on how fast it can scale.</div>
+    </div>
+  </div>
+
+  <!-- CEG -->
+  <div class="memo" id="ceg" style="border-top:3px solid var(--tel)">
+    <div class="memo-head">
+      <div><div class="memo-ticker" style="color:var(--tel)">CEG</div><div class="memo-name">Constellation Energy Corp · Utilities, Nuclear</div>
+        <div class="memo-tags"><span class="tag" style="background:rgba(45,212,200,.15);color:var(--tel)">Nuclear / AI Power</span><span class="tag" style="background:var(--gldbg);color:var(--gld)">10.82% of book</span></div>
+      </div>
+      <div class="memo-right"><div class="memo-stat">$247.17 → $271.91</div><div class="memo-stat-lbl">Entry → Current</div></div>
+    </div>
+    <div class="memo-metrics">
+      <div class="mm"><div class="mm-lbl">Shares</div><div class="mm-val">2.02</div></div>
+      <div class="mm"><div class="mm-lbl">Return</div><div class="mm-val g">+10.01%</div></div>
+      <div class="mm"><div class="mm-lbl">Q1 Adj. EPS</div><div class="mm-val">$2.74</div></div>
+      <div class="mm"><div class="mm-lbl">FY26 EPS Guide</div><div class="mm-val">$11–12</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-fund">▲ Business &amp; latest quarter</div>
+      <div class="sec-body">Constellation's Q1 2026 results (mid-May 2026) showed GAAP EPS of $4.49 (versus $0.38 a year earlier) and adjusted operating EPS of $2.74, up 28% year-over-year, beating estimates. Full-year 2026 adjusted operating EPS guidance of $11-12 was reaffirmed. The nuclear fleet — the largest in the US — ran at a 92.3% capacity factor, generating 40 terawatt-hours in the quarter, with roughly 147 TWh of annual capacity available, ~93% of it within the PJM grid footprint that serves much of the US mid-Atlantic. The $26.6 billion Calpine acquisition closed in January 2026, adding gas, geothermal, hydro, wind, and solar assets to reach a combined ~55 gigawatts of generation capacity. The company holds over 5,650 megawatts of long-term clean power agreements with data center and hyperscale customers, including a 20-year power purchase agreement with Microsoft tied to the Crane Clean Energy Center (the former Three Mile Island Unit 1), whose restart is targeted around 2027-2028 pending regulatory sign-off.</div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-cat">● Why it's in the book</div>
+      <div class="sec-body">Constellation is a way to own the AI buildout's power constraint rather than the compute layer directly — a theme that's structurally uncorrelated with chip-sector sentiment. Firm, carbon-free nuclear capacity is the specific asset hyperscalers are contracting for at premium long-term rates, and Constellation controls more of it than any other US operator.</div>
+    </div>
+    <div class="sec">
+      <div class="sec-hl hl-risk">■ Risks to watch</div>
+      <div class="sec-body">The stock trades at a rich premium (around 40x earnings) that assumes continued conversion of its available nuclear capacity into new long-term contracts — the market has been watching for confirmation of new hyperscaler deals since a December 2025 FERC order cleared a key regulatory bottleneck for co-located data center service. Calpine integration (2,300 employees, 60+ power plants) is still in its early stages and carries execution risk. Nuclear fleet aging, relicensing, and maintenance costs are longer-duration risks to monitor.</div>
+    </div>
+  </div>
+
+  <div class="disclaimer">These memos are for personal, informational purposes only and do not constitute investment advice or a solicitation to buy or sell any security. All company financial figures are sourced from public earnings releases, SEC filings, and financial reporting as cited internally during research; forward guidance reflects company or analyst estimates as of the date noted and is inherently uncertain. Position data (entry price, current price, weight) is pulled live from the brokerage account. Past performance is not indicative of future results.</div>
+</div>
+</body>
+</html>
