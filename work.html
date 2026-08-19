@@ -97,22 +97,32 @@ body.ready .hero>*{opacity:1;transform:none}
 .doc-cta{display:inline-flex;align-items:center;gap:5px;font:600 10px var(--mono);color:var(--gold);letter-spacing:.03em;background:none;border:0;padding:0}
 .doc-cta:hover{text-decoration:underline}
 
-/* Document lightbox — watermarked, view-only preview for PDFs/XLSX */
+/* Document lightbox — full scrollable PDF embed / tabbed spreadsheet viewer */
 .lightbox{position:fixed;inset:0;z-index:500;background:#06070a;display:none;flex-direction:column}
 .lightbox.open{display:flex}
 .lightbox-bar{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--line);flex:0 0 auto}
 .lightbox-title{font:600 12px var(--mono);color:var(--text);letter-spacing:.02em}
-.lightbox-page{margin-left:auto;font:600 11px var(--mono);color:var(--text4)}
-.lightbox-close{width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:rgba(255,250,240,.03);color:var(--text2);font-size:14px;line-height:1;cursor:pointer}
+.lightbox-hint{margin-left:auto;font:600 10px var(--mono);color:var(--text4);letter-spacing:.02em}
+.lightbox-close{width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:rgba(255,250,240,.03);color:var(--text2);font-size:14px;line-height:1;cursor:pointer;flex:0 0 auto}
 .lightbox-close:hover{border-color:var(--gold-line);color:var(--gold)}
 .lightbox-body{position:relative;flex:1;min-height:0}
-.lightbox-stage{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;padding:22px 64px;overflow:auto;-webkit-user-select:none;user-select:none}
-.lightbox-stage img{max-width:100%;height:auto;border-radius:8px;box-shadow:0 30px 70px rgba(0,0,0,.5);-webkit-user-select:none;user-select:none;pointer-events:none}
-.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:rgba(12,14,19,.85);color:var(--text);font-size:20px;line-height:1;cursor:pointer;z-index:2}
-.lightbox-nav:hover{border-color:var(--gold-line);color:var(--gold)}
-.lightbox-nav.prev{left:16px}.lightbox-nav.next{right:16px}
+
+.lb-pdf{position:absolute;inset:0;width:100%;height:100%;border:0;background:#e9e9e9}
+
+.lb-sheet{position:absolute;inset:0;display:none;flex-direction:column}
+.lb-sheet.active{display:flex}
+.sheet-tabs{flex:0 0 auto;display:flex;gap:2px;overflow-x:auto;scrollbar-width:thin;padding:8px 12px;border-bottom:1px solid var(--line);background:var(--card2)}
+.sheet-tab{flex:0 0 auto;padding:8px 13px;border-radius:8px 8px 0 0;border:1px solid transparent;background:none;color:var(--text4);font:600 10px var(--mono);letter-spacing:.02em;white-space:nowrap;cursor:pointer}
+.sheet-tab:hover{color:var(--text2)}
+.sheet-tab.active{color:var(--gold);background:var(--bg);border-color:var(--line);border-bottom-color:var(--bg)}
+.sheet-table-wrap{flex:1;overflow:auto;padding:0;background:#fff}
+.sheet-table-wrap table{border-collapse:collapse;font:12px/1.4 var(--mono);white-space:nowrap}
+.sheet-table-wrap td,.sheet-table-wrap th{border:1px solid #e2e2e2;padding:4px 9px;color:#1a1a1a}
+.sheet-table-wrap tr:first-child td,.sheet-table-wrap tr:first-child th{background:#f4f1ea;font-weight:700}
+.sheet-loading{flex:1;display:flex;align-items:center;justify-content:center;color:var(--text3);font:600 11px var(--mono);letter-spacing:.03em}
+
 .lightbox-note{flex:0 0 auto;padding:10px 18px;border-top:1px solid var(--line);font-size:10.5px;color:var(--text4);text-align:center}
-@media(max-width:640px){.lightbox-stage{padding:16px 50px}.lightbox-nav{width:36px;height:36px;font-size:17px}}
+@media(max-width:640px){.lightbox-bar{padding:12px 14px}.lightbox-hint{display:none}}
 
 .footer{padding:50px 0 26px;border-top:1px solid var(--line);margin-top:34px}
 .footer-row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;align-items:center}
@@ -213,15 +223,17 @@ body.ready .hero>*{opacity:1;transform:none}
 <div class="lightbox" id="lightbox" aria-hidden="true">
   <div class="lightbox-bar">
     <span class="lightbox-title" id="lbTitle"></span>
-    <span class="lightbox-page" id="lbPage"></span>
+    <span class="lightbox-hint" id="lbHint"></span>
     <button class="lightbox-close" id="lbClose" type="button" aria-label="Close preview">✕</button>
   </div>
   <div class="lightbox-body">
-    <button class="lightbox-nav prev" id="lbPrev" type="button" aria-label="Previous page">‹</button>
-    <div class="lightbox-stage"><img id="lbImg" alt="Document preview page" draggable="false"></div>
-    <button class="lightbox-nav next" id="lbNext" type="button" aria-label="Next page">›</button>
+    <iframe class="lb-pdf" id="lbPdf" title="Document preview" style="display:none"></iframe>
+    <div class="lb-sheet" id="lbSheet">
+      <div class="sheet-tabs" id="sheetTabs"></div>
+      <div class="sheet-table-wrap" id="sheetTableWrap"><div class="sheet-loading">Loading workbook…</div></div>
+    </div>
   </div>
-  <div class="lightbox-note">Preview only — watermarked pages, right-click and download disabled here.</div>
+  <div class="lightbox-note" id="lbNote"></div>
 </div>
 
 <footer class="footer"><div class="wrap">
@@ -232,29 +244,21 @@ body.ready .hero>*{opacity:1;transform:none}
   <div class="copyright">© 2026 Jasdeep Singh · jasdeep.co.in · Not investment advice</div>
 </div></footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 (function(){
-  var galleries = {
-    retail: {title:'Industry Primer — US Retail', images:['retail-preview-1.jpg','retail-preview-2.jpg','retail-preview-3.jpg','retail-preview-4.jpg']},
-    tgt: {title:'DCF Model — Target Corp', images:['tgt-preview-1.jpg','tgt-preview-2.jpg','tgt-preview-3.jpg','tgt-preview-4.jpg']}
-  };
-  var current = null, idx = 0;
   var lb = document.getElementById('lightbox');
-  var lbImg = document.getElementById('lbImg');
   var lbTitle = document.getElementById('lbTitle');
-  var lbPage = document.getElementById('lbPage');
-  var lbPrev = document.getElementById('lbPrev');
-  var lbNext = document.getElementById('lbNext');
-  function render(){
-    lbImg.src = current.images[idx];
-    lbPage.textContent = (idx+1)+' / '+current.images.length;
-  }
-  function openGallery(key){
-    current = galleries[key];
-    if(!current) return;
-    idx = 0;
-    lbTitle.textContent = current.title;
-    render();
+  var lbHint = document.getElementById('lbHint');
+  var lbNote = document.getElementById('lbNote');
+  var lbClose = document.getElementById('lbClose');
+  var lbPdf = document.getElementById('lbPdf');
+  var lbSheet = document.getElementById('lbSheet');
+  var sheetTabs = document.getElementById('sheetTabs');
+  var sheetTableWrap = document.getElementById('sheetTableWrap');
+  var workbookCache = null;
+
+  function openModal(){
     lb.classList.add('open');
     lb.setAttribute('aria-hidden','false');
     document.body.style.overflow = 'hidden';
@@ -263,21 +267,75 @@ body.ready .hero>*{opacity:1;transform:none}
     lb.classList.remove('open');
     lb.setAttribute('aria-hidden','true');
     document.body.style.overflow = '';
+    lbPdf.src = 'about:blank';
+    lbPdf.style.display = 'none';
+    lbSheet.classList.remove('active');
   }
+
+  function openPdf(){
+    lbTitle.textContent = 'Industry Primer — US Retail';
+    lbHint.textContent = 'Scroll to read · full document';
+    lbNote.textContent = 'Full document embedded here for reading. Please don’t redistribute — reach out if you’d like the file directly.';
+    lbSheet.classList.remove('active');
+    lbPdf.style.display = 'block';
+    lbPdf.src = 'US_Retail_Industry_Outlook.pdf#toolbar=0&navpanes=0';
+    openModal();
+  }
+
+  function renderSheet(name){
+    var ws = workbookCache.Sheets[name];
+    sheetTableWrap.innerHTML = XLSX.utils.sheet_to_html(ws, {editable:false});
+    Array.prototype.forEach.call(sheetTabs.children, function(btn){
+      btn.classList.toggle('active', btn.textContent === name);
+    });
+  }
+
+  function buildTabs(){
+    sheetTabs.innerHTML = '';
+    workbookCache.SheetNames.forEach(function(name, i){
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'sheet-tab' + (i === 0 ? ' active' : '');
+      btn.textContent = name;
+      btn.addEventListener('click', function(){ renderSheet(name); });
+      sheetTabs.appendChild(btn);
+    });
+  }
+
+  function openWorkbook(){
+    lbTitle.textContent = 'DCF Model — Target Corp';
+    lbHint.textContent = 'All 20 tabs · click a tab to switch sheets';
+    lbNote.textContent = 'Full workbook, read-only view here — every tab is browsable. The live .xlsx is available via the download link on the page.';
+    lbPdf.style.display = 'none';
+    lbSheet.classList.add('active');
+    openModal();
+    if (workbookCache){ buildTabs(); renderSheet(workbookCache.SheetNames[0]); return; }
+    sheetTableWrap.innerHTML = '<div class="sheet-loading">Loading workbook…</div>';
+    fetch('TGT_Financial_Model.xlsx')
+      .then(function(res){ return res.arrayBuffer(); })
+      .then(function(buf){
+        workbookCache = XLSX.read(buf, {type:'array'});
+        buildTabs();
+        renderSheet(workbookCache.SheetNames[0]);
+      })
+      .catch(function(){
+        sheetTableWrap.innerHTML = '<div class="sheet-loading">Couldn’t load the workbook — try the download link instead.</div>';
+      });
+  }
+
   document.querySelectorAll('[data-preview]').forEach(function(btn){
-    btn.addEventListener('click', function(){ openGallery(btn.getAttribute('data-preview')); });
+    btn.addEventListener('click', function(){
+      var key = btn.getAttribute('data-preview');
+      if (key === 'retail') openPdf();
+      else if (key === 'tgt') openWorkbook();
+    });
   });
-  document.getElementById('lbClose').addEventListener('click', closeLightbox);
-  lbPrev.addEventListener('click', function(){ idx = (idx-1+current.images.length)%current.images.length; render(); });
-  lbNext.addEventListener('click', function(){ idx = (idx+1)%current.images.length; render(); });
-  lb.addEventListener('click', function(e){ if(e.target===lb) closeLightbox(); });
+  lbClose.addEventListener('click', closeLightbox);
+  lb.addEventListener('click', function(e){ if (e.target === lb) closeLightbox(); });
   document.addEventListener('keydown', function(e){
-    if(!lb.classList.contains('open')) return;
-    if(e.key==='Escape') closeLightbox();
-    if(e.key==='ArrowLeft') lbPrev.click();
-    if(e.key==='ArrowRight') lbNext.click();
+    if (lb.classList.contains('open') && e.key === 'Escape') closeLightbox();
   });
-  lb.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+  lbSheet.addEventListener('contextmenu', function(e){ e.preventDefault(); });
 })();
 </script>
 <script src="motion.js"></script>
