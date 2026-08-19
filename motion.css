@@ -1,0 +1,90 @@
+/* ---------- Shared motion system (profile / portfolio / memos) ---------- */
+
+/* Scroll reveal */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.16,.8,.24,1),transform .7s cubic-bezier(.16,.8,.24,1);will-change:opacity,transform}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+/* Stagger delays for grid-like groups (proof cards, recognition grid, ribbon stats, risk cards, feature split) */
+.stagger>.reveal:nth-child(1){transition-delay:.02s}
+.stagger>.reveal:nth-child(2){transition-delay:.08s}
+.stagger>.reveal:nth-child(3){transition-delay:.14s}
+.stagger>.reveal:nth-child(4){transition-delay:.2s}
+.stagger>.reveal:nth-child(5){transition-delay:.26s}
+.stagger>.reveal:nth-child(6){transition-delay:.32s}
+.stagger>.reveal:nth-child(7){transition-delay:.38s}
+.stagger>.reveal:nth-child(8){transition-delay:.44s}
+.stagger>.reveal:nth-child(9){transition-delay:.5s}
+
+/* Hero / above-the-fold entrance (plays on load, not on scroll) */
+.hero-copy>*{opacity:0;transform:translateY(14px);transition:opacity .7s cubic-bezier(.16,.8,.24,1),transform .7s cubic-bezier(.16,.8,.24,1)}
+.hero-copy>*:nth-child(1){transition-delay:.05s}
+.hero-copy>*:nth-child(2){transition-delay:.12s}
+.hero-copy>*:nth-child(3){transition-delay:.19s}
+.hero-copy>*:nth-child(4){transition-delay:.26s}
+.hero-copy>*:nth-child(5){transition-delay:.33s}
+.hero-copy>*:nth-child(6){transition-delay:.4s}
+.hero-photo-frame{opacity:0;transform:translateY(10px) scale(.97);transition:opacity .85s cubic-bezier(.16,.8,.24,1) .1s,transform .85s cubic-bezier(.16,.8,.24,1) .1s}
+body.ready .hero-copy>*,body.ready .hero-photo-frame{opacity:1;transform:none}
+.ov-hero>*{opacity:0;transform:translateY(14px);transition:opacity .7s cubic-bezier(.16,.8,.24,1),transform .7s cubic-bezier(.16,.8,.24,1)}
+.ov-hero>*:nth-child(1){transition-delay:.05s}
+.ov-hero>*:nth-child(2){transition-delay:.14s}
+body.ready .ov-hero>*{opacity:1;transform:none}
+
+/* Card hover lift (applies wherever these classes are used) */
+.proof-card,.rec-card,.vcard,.risk-card,.memo,.holdings-vcard{transition:transform .3s cubic-bezier(.16,.8,.24,1),border-color .3s ease,box-shadow .3s ease}
+.proof-card:hover,.rec-card:hover,.vcard:hover,.risk-card:hover{transform:translateY(-3px);border-color:var(--gold-line);box-shadow:0 16px 32px rgba(0,0,0,.28)}
+.memo:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(0,0,0,.3)}
+
+/* Animated bar fills (portfolio allocation bars) */
+.bar-fill{width:0;transition:width 1.15s cubic-bezier(.16,.8,.24,1)}
+
+/* Sticky nav gains presence once the page scrolls */
+.nav{transition:box-shadow .3s ease,background-color .3s ease}
+.nav.scrolled{box-shadow:0 12px 30px rgba(0,0,0,.35)}
+
+/* Chip / tag / badge micro-interactions */
+.chip,.tag,.job-badge,.rec-ico{transition:transform .25s ease,border-color .25s ease,background-color .25s ease}
+.job:hover .job-badge{transform:translateY(-1px);border-color:var(--gold)}
+
+/* Buttons already have hover transforms inline; make sure timing matches system easing */
+.btn{transition:transform .25s cubic-bezier(.16,.8,.24,1),background-color .25s ease,border-color .25s ease}
+
+/* Scroll progress bar (injected by motion.js) */
+.scroll-progress{position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--gold),var(--green));z-index:9999;pointer-events:none}
+
+/* Nav link underline sweep */
+.nav-link{position:relative}
+.nav-link:after{content:"";position:absolute;left:13px;right:13px;bottom:4px;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.16,.8,.24,1)}
+.nav-link:hover:after{transform:scaleX(1)}
+.nav-link.active:after{display:none}
+
+/* Hero photo subtle hover zoom */
+.hero-photo{transition:transform .5s cubic-bezier(.16,.8,.24,1)}
+.hero-photo-frame:hover .hero-photo{transform:scale(1.06)}
+
+/* "Live" status dot pulse */
+.hero-live i{animation:live-pulse 2.2s ease-in-out infinite}
+@keyframes live-pulse{0%,100%{box-shadow:0 0 0 0 rgba(107,207,158,.55)}50%{box-shadow:0 0 0 7px rgba(107,207,158,0)}}
+
+/* Ambient slow zoom on the footer skyline photo */
+.footer-bg img{animation:kenburns 26s ease-in-out infinite alternate}
+@keyframes kenburns{0%{transform:scale(1)}100%{transform:scale(1.09)}}
+
+/* Respect reduced motion: kill everything above, show content immediately */
+@media (prefers-reduced-motion: reduce){
+  .reveal,.hero-copy>*,.hero-photo-frame,.ov-hero>*,.hero>*{opacity:1!important;transform:none!important;transition:none!important}
+  .bar-fill{transition:none!important}
+  .proof-card,.rec-card,.vcard,.risk-card,.memo,.btn,.nav{transition:none!important}
+  .hero-live i,.footer-bg img{animation:none!important}
+  .hero-photo{transition:none!important}
+  .nav-link:after{transition:none!important}
+}
+
+/* Safety net: if motion.js fails to load/execute (blocked, network error, future path
+   change), never leave content permanently invisible. A tiny inline script in <head>
+   arms a timeout that adds .motion-fallback unless motion.js signals it initialised. */
+html.motion-fallback .reveal,
+html.motion-fallback .hero-copy>*,
+html.motion-fallback .hero-photo-frame,
+html.motion-fallback .ov-hero>*,
+html.motion-fallback .hero>*{opacity:1!important;transform:none!important;transition:none!important}
