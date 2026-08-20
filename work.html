@@ -107,19 +107,9 @@ body.ready .hero>*{opacity:1;transform:none}
 .lightbox-close:hover{border-color:var(--gold-line);color:var(--gold)}
 .lightbox-body{position:relative;flex:1;min-height:0}
 
-.lb-pdf{position:absolute;inset:0;width:100%;height:100%;border:0;background:#e9e9e9}
-
-.lb-sheet{position:absolute;inset:0;display:none;flex-direction:column}
-.lb-sheet.active{display:flex}
-.sheet-tabs{flex:0 0 auto;display:flex;gap:2px;overflow-x:auto;scrollbar-width:thin;padding:8px 12px;border-bottom:1px solid var(--line);background:var(--card2)}
-.sheet-tab{flex:0 0 auto;padding:8px 13px;border-radius:8px 8px 0 0;border:1px solid transparent;background:none;color:var(--text4);font:600 10px var(--mono);letter-spacing:.02em;white-space:nowrap;cursor:pointer}
-.sheet-tab:hover{color:var(--text2)}
-.sheet-tab.active{color:var(--gold);background:var(--bg);border-color:var(--line);border-bottom-color:var(--bg)}
-.sheet-table-wrap{flex:1;overflow:auto;padding:0;background:#fff}
-.sheet-table-wrap table{border-collapse:collapse;font:12px/1.4 var(--mono);white-space:nowrap}
-.sheet-table-wrap td,.sheet-table-wrap th{border:1px solid #e2e2e2;padding:4px 9px;color:#1a1a1a}
-.sheet-table-wrap tr:first-child td,.sheet-table-wrap tr:first-child th{background:#f4f1ea;font-weight:700}
-.sheet-loading{flex:1;display:flex;align-items:center;justify-content:center;color:var(--text3);font:600 11px var(--mono);letter-spacing:.03em}
+.lb-frame{position:absolute;inset:0;width:100%;height:100%;border:0;background:#e9e9e9}
+.lb-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--text3);font:600 11px var(--mono);letter-spacing:.03em;background:var(--bg)}
+.lb-loading.hide{display:none}
 
 .lightbox-note{flex:0 0 auto;padding:10px 18px;border-top:1px solid var(--line);font-size:10.5px;color:var(--text4);text-align:center}
 @media(max-width:640px){.lightbox-bar{padding:12px 14px}.lightbox-hint{display:none}}
@@ -154,9 +144,9 @@ body.ready .hero>*{opacity:1;transform:none}
 <main class="wrap">
   <div class="hero">
     <span class="sk">Selected work</span>
-    <h1>Where the numbers come from.</h1>
-    <p>Sector primers, company deep-dives, and the models behind them — the underlying work that sits beneath the calls on the Portfolio and Research pages. Built to be checked, not just read.</p>
-    <div class="status-pill"><i></i>Target Corp deep-dive — 2 of 4 published</div>
+    <h1>From industry to investment case.</h1>
+    <p>A full coverage initiation on Target Corp — the industry backdrop, the company thesis, the DCF underneath it, and the deck that ties it together. Every number here traces back to a source you can open and check.</p>
+    <div class="status-pill"><i></i>Target Corp deep-dive</div>
   </div>
 </main>
 
@@ -188,12 +178,14 @@ body.ready .hero>*{opacity:1;transform:none}
           </div>
         </div>
       </div>
-      <div class="doc-item placeholder reveal">
+      <div class="doc-item reveal">
         <div class="doc-badge">PDF</div>
         <div class="doc-body">
           <h4>Company Note — Target Corp</h4>
-          <div class="doc-meta">3–4 pages</div>
-          <div class="doc-status">In progress</div>
+          <div class="doc-meta">4 pages</div>
+          <div class="doc-cta-row">
+            <button class="doc-cta" type="button" data-preview="report">Preview ↗</button>
+          </div>
         </div>
       </div>
       <div class="doc-item reveal">
@@ -207,12 +199,15 @@ body.ready .hero>*{opacity:1;transform:none}
           </div>
         </div>
       </div>
-      <div class="doc-item placeholder reveal">
+      <div class="doc-item reveal">
         <div class="doc-badge">PPT</div>
         <div class="doc-body">
           <h4>Investment Deck — Target Corp</h4>
-          <div class="doc-meta">3–4 slides</div>
-          <div class="doc-status">In progress</div>
+          <div class="doc-meta">6 slides</div>
+          <div class="doc-cta-row">
+            <button class="doc-cta" type="button" data-preview="deck">Preview ↗</button>
+            <a class="doc-cta" href="TGT_Stock_Presentation.pptx" download>Download .pptx ↓</a>
+          </div>
         </div>
       </div>
     </div>
@@ -227,11 +222,8 @@ body.ready .hero>*{opacity:1;transform:none}
     <button class="lightbox-close" id="lbClose" type="button" aria-label="Close preview">✕</button>
   </div>
   <div class="lightbox-body">
-    <iframe class="lb-pdf" id="lbPdf" title="Document preview" style="display:none"></iframe>
-    <div class="lb-sheet" id="lbSheet">
-      <div class="sheet-tabs" id="sheetTabs"></div>
-      <div class="sheet-table-wrap" id="sheetTableWrap"><div class="sheet-loading">Loading workbook…</div></div>
-    </div>
+    <div class="lb-loading" id="lbLoading">Loading…</div>
+    <iframe class="lb-frame" id="lbFrame" title="Document preview"></iframe>
   </div>
   <div class="lightbox-note" id="lbNote"></div>
 </div>
@@ -244,7 +236,6 @@ body.ready .hero>*{opacity:1;transform:none}
   <div class="copyright">© 2026 Jasdeep Singh · jasdeep.co.in · Not investment advice</div>
 </div></footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 (function(){
   var lb = document.getElementById('lightbox');
@@ -252,13 +243,44 @@ body.ready .hero>*{opacity:1;transform:none}
   var lbHint = document.getElementById('lbHint');
   var lbNote = document.getElementById('lbNote');
   var lbClose = document.getElementById('lbClose');
-  var lbPdf = document.getElementById('lbPdf');
-  var lbSheet = document.getElementById('lbSheet');
-  var sheetTabs = document.getElementById('sheetTabs');
-  var sheetTableWrap = document.getElementById('sheetTableWrap');
-  var workbookCache = null;
+  var lbFrame = document.getElementById('lbFrame');
+  var lbLoading = document.getElementById('lbLoading');
 
-  function openModal(){
+  var docs = {
+    retail: {
+      title: 'Industry Primer — US Retail',
+      hint: 'Scroll to read · full document',
+      note: 'The actual PDF, embedded and scrollable.',
+      src: 'US_Retail_Industry_Outlook.pdf#toolbar=0&navpanes=0'
+    },
+    tgt: {
+      title: 'DCF Model — Target Corp',
+      hint: 'All 20 tabs · opens in Excel Online',
+      note: 'This is the real workbook, rendered by Microsoft’s Excel viewer — same tabs, same formatting. The .xlsx is also available via the download link on the page.',
+      src: 'https://view.officeapps.live.com/op/embed.aspx?src=' + encodeURIComponent(location.origin + '/TGT_Financial_Model.xlsx')
+    },
+    deck: {
+      title: 'Investment Deck — Target Corp',
+      hint: 'Scroll to read · full document',
+      note: 'The actual deck, embedded and scrollable. The .pptx is also available via the download link on the page.',
+      src: 'TGT_Stock_Presentation.pdf#toolbar=0&navpanes=0'
+    },
+    report: {
+      title: 'Company Note — Target Corp',
+      hint: 'Scroll to read · full document',
+      note: 'The actual PDF, embedded and scrollable.',
+      src: 'TGT_Equity_Research_Report.pdf#toolbar=0&navpanes=0'
+    }
+  };
+
+  function openModal(key){
+    var d = docs[key];
+    if (!d) return;
+    lbTitle.textContent = d.title;
+    lbHint.textContent = d.hint;
+    lbNote.textContent = d.note;
+    lbLoading.classList.remove('hide');
+    lbFrame.src = d.src;
     lb.classList.add('open');
     lb.setAttribute('aria-hidden','false');
     document.body.style.overflow = 'hidden';
@@ -267,75 +289,19 @@ body.ready .hero>*{opacity:1;transform:none}
     lb.classList.remove('open');
     lb.setAttribute('aria-hidden','true');
     document.body.style.overflow = '';
-    lbPdf.src = 'about:blank';
-    lbPdf.style.display = 'none';
-    lbSheet.classList.remove('active');
+    lbFrame.src = 'about:blank';
   }
 
-  function openPdf(){
-    lbTitle.textContent = 'Industry Primer — US Retail';
-    lbHint.textContent = 'Scroll to read · full document';
-    lbNote.textContent = 'Full document embedded here for reading. Please don’t redistribute — reach out if you’d like the file directly.';
-    lbSheet.classList.remove('active');
-    lbPdf.style.display = 'block';
-    lbPdf.src = 'US_Retail_Industry_Outlook.pdf#toolbar=0&navpanes=0';
-    openModal();
-  }
-
-  function renderSheet(name){
-    var ws = workbookCache.Sheets[name];
-    sheetTableWrap.innerHTML = XLSX.utils.sheet_to_html(ws, {editable:false});
-    Array.prototype.forEach.call(sheetTabs.children, function(btn){
-      btn.classList.toggle('active', btn.textContent === name);
-    });
-  }
-
-  function buildTabs(){
-    sheetTabs.innerHTML = '';
-    workbookCache.SheetNames.forEach(function(name, i){
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'sheet-tab' + (i === 0 ? ' active' : '');
-      btn.textContent = name;
-      btn.addEventListener('click', function(){ renderSheet(name); });
-      sheetTabs.appendChild(btn);
-    });
-  }
-
-  function openWorkbook(){
-    lbTitle.textContent = 'DCF Model — Target Corp';
-    lbHint.textContent = 'All 20 tabs · click a tab to switch sheets';
-    lbNote.textContent = 'Full workbook, read-only view here — every tab is browsable. The live .xlsx is available via the download link on the page.';
-    lbPdf.style.display = 'none';
-    lbSheet.classList.add('active');
-    openModal();
-    if (workbookCache){ buildTabs(); renderSheet(workbookCache.SheetNames[0]); return; }
-    sheetTableWrap.innerHTML = '<div class="sheet-loading">Loading workbook…</div>';
-    fetch('TGT_Financial_Model.xlsx')
-      .then(function(res){ return res.arrayBuffer(); })
-      .then(function(buf){
-        workbookCache = XLSX.read(buf, {type:'array'});
-        buildTabs();
-        renderSheet(workbookCache.SheetNames[0]);
-      })
-      .catch(function(){
-        sheetTableWrap.innerHTML = '<div class="sheet-loading">Couldn’t load the workbook — try the download link instead.</div>';
-      });
-  }
+  lbFrame.addEventListener('load', function(){ lbLoading.classList.add('hide'); });
 
   document.querySelectorAll('[data-preview]').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var key = btn.getAttribute('data-preview');
-      if (key === 'retail') openPdf();
-      else if (key === 'tgt') openWorkbook();
-    });
+    btn.addEventListener('click', function(){ openModal(btn.getAttribute('data-preview')); });
   });
   lbClose.addEventListener('click', closeLightbox);
   lb.addEventListener('click', function(e){ if (e.target === lb) closeLightbox(); });
   document.addEventListener('keydown', function(e){
     if (lb.classList.contains('open') && e.key === 'Escape') closeLightbox();
   });
-  lbSheet.addEventListener('contextmenu', function(e){ e.preventDefault(); });
 })();
 </script>
 <script src="motion.js"></script>

@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="motion.css">
 <noscript><style>.reveal,.hero-copy>*,.hero-photo-frame,.ov-hero>*,.hero>*{opacity:1!important;transform:none!important}</style></noscript>
 <script>(function(){setTimeout(function(){if(!window.__motionOK)document.documentElement.classList.add("motion-fallback")},1800)})();</script>
+<style>html.motion-fallback .reveal,html.motion-fallback .hero-copy>*,html.motion-fallback .hero-photo-frame,html.motion-fallback .ov-hero>*,html.motion-fallback .hero>*{opacity:1!important;transform:none!important;transition:none!important}</style>
 <style>
 :root{
   --bg:#0c0e13;
@@ -175,6 +176,7 @@ body.nav-open .nav-mobile{display:flex}
 
 /* ---------- Selected work ---------- */
 .split{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:1000px){.split.three{grid-template-columns:1fr 1fr 1fr}}
 .feature{position:relative;overflow:hidden;padding:26px 24px;border-radius:20px;border:1px solid var(--line);background:linear-gradient(150deg,#101722,#0a0f18);transition:.3s}
 .feature:hover{transform:translateY(-3px);border-color:var(--gold-line)}
 .feature .fk{font:600 9px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--text3)}
@@ -218,6 +220,7 @@ body.nav-open .nav-mobile{display:flex}
       <a href="profile.html" class="nav-link active">Profile</a>
       <a href="portfolio.html" class="nav-link">Portfolio</a>
       <a href="memos.html" class="nav-link">Research</a>
+      <a href="work.html" class="nav-link">Work</a>
       <a href="Resume_Jasdeep.pdf" class="nav-link nav-cv" target="_blank">CV ↗</a>
     </div>
     <button class="nav-toggle" aria-label="Toggle menu" onclick="document.body.classList.toggle('nav-open');this.classList.toggle('open')"><span></span><span></span><span></span></button>
@@ -226,6 +229,7 @@ body.nav-open .nav-mobile{display:flex}
     <a href="profile.html">Profile</a>
     <a href="portfolio.html">Portfolio</a>
     <a href="memos.html">Research</a>
+    <a href="work.html">Work</a>
     <a href="Resume_Jasdeep.pdf" target="_blank">CV ↗</a>
   </div>
 </nav>
@@ -370,7 +374,7 @@ body.nav-open .nav-mobile{display:flex}
       <span class="kicker">04 / Selected work</span>
       <h2>The numbers are <em>only half the story.</em></h2>
     </div>
-    <div class="split stagger">
+    <div class="split three stagger">
       <a class="feature gold reveal" href="portfolio.html">
         <span class="feature-arrow">↗</span>
         <span class="fk">Public portfolio · Updated 17 Aug 2026</span>
@@ -391,6 +395,17 @@ body.nav-open .nav-mobile{display:flex}
           <div><span>09</span><em>Positions covered</em></div>
           <div><span>5</span><em>Sectors</em></div>
           <div><span>+21.6pp</span><em>Best sleeve alpha</em></div>
+        </div>
+      </a>
+      <a class="feature reveal" href="work.html">
+        <span class="feature-arrow">↗</span>
+        <span class="fk">Coverage initiation · Target Corp</span>
+        <h3>Selected Work</h3>
+        <p>A full deep-dive on Target Corp — the industry backdrop, the DCF model, and the investment deck behind the call, all open to preview or download.</p>
+        <div class="feature-stats">
+          <div><span>HOLD</span><em>Rating</em></div>
+          <div><span>$132.70</span><em>DCF fair value</em></div>
+          <div><span>4/4</span><em>Docs published</em></div>
         </div>
       </a>
     </div>
